@@ -1,0 +1,258 @@
+---
+import { cakeImg } from './assets';
+---
+
+<article class="card card--cake" data-cake-card>
+  <div class="card--cake__info">
+    <p class="card--cake__label">&gt;&gt; SYSTEM.INVENTORY.ITEM_042</p>
+    <h2 class="card--cake__title">THE_CAKE.EXE</h2>
+    <ul class="card--cake__list">
+      <li>+ VIRTUAL_FLAVOR: CHOCOTORTA</li>
+      <li>+ CANDLE_COUNT: 18</li>
+      <li>+ STATUS: DELICIOUS</li>
+    </ul>
+    <button class="card--cake__btn" type="button" data-cake-btn>EAT_CAKE()</button>
+  </div>
+  <div class="card--cake__image-wrap">
+    <img
+      src={cakeImg}
+      alt="Pixel art birthday cake"
+      class="pixelated card--cake__img"
+      data-cake-img
+      loading="lazy"
+    />
+  </div>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card--cake {
+    background-color: var(--clr-surface-high);
+    border: 1px dotted color-mix(in srgb, var(--clr-primary) 20%, transparent);
+    padding: var(--sp-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-6);
+  }
+
+  @media (min-width: 768px) {
+    .card--cake {
+      flex-direction: row;
+    }
+  }
+
+  .card--cake__info {
+    flex: 1;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .card--cake__info {
+      text-align: left;
+    }
+  }
+
+  .card--cake__label {
+    font-size: 0.625rem;
+    color: color-mix(in srgb, var(--clr-primary) 60%, transparent);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    margin-bottom: var(--sp-2);
+  }
+
+  .card--cake__title {
+    color: var(--clr-primary);
+    font-size: 1.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-tight);
+    line-height: 1;
+    margin-bottom: var(--sp-4);
+  }
+
+  .card--cake__list {
+    list-style: none;
+    font-size: 0.75rem;
+    color: var(--clr-on-surface-variant);
+    font-family: var(--font-mono);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+  }
+
+  .card--cake__btn {
+    margin-top: var(--sp-6);
+    background-color: var(--clr-primary);
+    color: var(--clr-on-primary);
+    padding: var(--sp-2) var(--sp-4);
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    transition: box-shadow var(--dur-fast);
+  }
+
+  .card--cake__btn:hover {
+    box-shadow: var(--shadow-btn-hover);
+  }
+
+  @keyframes btn-eating-shake {
+    0%, 100% { transform: translateX(0) rotate(0deg); }
+    20% { transform: translateX(-3px) rotate(-1.5deg); }
+    40% { transform: translateX(3px) rotate(1.5deg); }
+    60% { transform: translateX(-2px) rotate(-0.8deg); }
+    80% { transform: translateX(2px) rotate(0.8deg); }
+  }
+
+  @keyframes btn-eating-color {
+    0%, 100% { background-color: var(--clr-primary); color: var(--clr-on-primary); }
+    50% { background-color: var(--clr-secondary); color: var(--clr-on-secondary); }
+  }
+
+  @keyframes cake-chomp {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-4deg); }
+    75% { transform: rotate(4deg); }
+  }
+
+  @keyframes cake-eaten {
+    0% { transform: scale(1) rotate(0deg); opacity: 1; }
+    40% { transform: scale(0.55) rotate(-6deg); opacity: 0.7; }
+    100% { transform: scale(0.15) rotate(18deg); opacity: 0; filter: blur(4px); }
+  }
+
+  .card--cake__btn.is-eating {
+    animation:
+      btn-eating-shake 0.25s ease-in-out infinite,
+      btn-eating-color 0.5s ease-in-out infinite;
+    cursor: wait;
+  }
+
+  .card--cake__btn.is-eaten {
+    background-color: var(--clr-tertiary-fixed);
+    color: var(--clr-on-tertiary);
+    box-shadow: var(--shadow-btn-hover);
+  }
+
+  .card--cake__img.is-being-eaten {
+    animation: cake-chomp 0.25s ease-in-out infinite;
+    transform-origin: center bottom;
+  }
+
+  .card--cake__img.is-eaten {
+    animation: cake-eaten 0.7s ease-out forwards;
+    transform-origin: center bottom;
+  }
+
+  .card--cake__image-wrap {
+    width: 8rem;
+    height: 8rem;
+    margin: 0 auto;
+    background-color: var(--clr-surface-lowest);
+    border: 1px solid color-mix(in srgb, var(--clr-primary) 20%, transparent);
+    padding: var(--sp-2);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .card--cake__image-wrap {
+      margin: 0;
+    }
+  }
+
+  .card--cake__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>
+
+<style is:global>
+  @keyframes crumb-scatter {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--crumb-dx), var(--crumb-dy)) scale(0); opacity: 0; }
+  }
+
+  .cake-crumb {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    animation: crumb-scatter 0.9s ease-out forwards;
+  }
+</style>
+
+<script>
+  const card = document.querySelector('[data-cake-card]') as HTMLElement | null;
+  const btn = card?.querySelector('[data-cake-btn]') as HTMLButtonElement | null;
+  const img = card?.querySelector('[data-cake-img]') as HTMLImageElement | null;
+
+  if (!card || !btn || !img) throw new Error('EAT_CAKE: elementos no encontrados');
+
+  const COLORS = ['#8ff5ff', '#ff51fa', '#effe41', '#f0dfff', '#ff6e84'];
+
+  function spawnCrumbs(): void {
+    const rect = btn.getBoundingClientRect();
+    const originX = rect.left + rect.width / 2;
+    const originY = rect.top + rect.height / 2;
+
+    for (let i = 0; i < 20; i++) {
+      const crumb = document.createElement('div');
+      crumb.className = 'cake-crumb';
+
+      const size = Math.random() * 6 + 3;
+      const angle = Math.random() * Math.PI * 2;
+      const dist = Math.random() * 110 + 40;
+      const dx = Math.cos(angle) * dist;
+      const dy = Math.sin(angle) * dist - 40;
+
+      crumb.style.cssText = [
+        `left: ${originX}px`,
+        `top: ${originY}px`,
+        `width: ${size}px`,
+        `height: ${size}px`,
+        `background: ${COLORS[Math.floor(Math.random() * COLORS.length)]}`,
+        `--crumb-dx: ${dx}px`,
+        `--crumb-dy: ${dy}px`,
+      ].join(';');
+
+      document.body.appendChild(crumb);
+      setTimeout(() => crumb.remove(), 1000);
+    }
+  }
+
+  let isEating = false;
+
+  btn.addEventListener('click', () => {
+    if (isEating) return;
+    isEating = true;
+
+    btn.textContent = 'EATING...';
+    btn.classList.add('is-eating');
+    img.classList.add('is-being-eaten');
+
+    setTimeout(() => {
+      spawnCrumbs();
+      btn.textContent = 'CAKE_EATEN: TRUE';
+      btn.classList.replace('is-eating', 'is-eaten');
+
+      img.classList.remove('is-being-eaten');
+      void img.offsetHeight;
+      img.classList.add('is-eaten');
+    }, 1800);
+
+    setTimeout(() => {
+      btn.textContent = 'EAT_CAKE()';
+      btn.classList.remove('is-eaten');
+      img.classList.remove('is-eaten');
+      isEating = false;
+    }, 4400);
+  });
+</script>

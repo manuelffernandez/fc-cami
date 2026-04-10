@@ -1,0 +1,72 @@
+<article class="card card--syslog">
+  <p class="card--syslog__header">SYSTEM_LOG_18</p>
+  <ul class="card--syslog__list">
+    <li class="card--syslog__item">
+      <span class="card--syslog__dot card--syslog__dot--primary"></span>
+      <span class="card--syslog__text card--syslog__text--primary">18_YEARS_RUNNING</span>
+    </li>
+    <li class="card--syslog__item">
+      <span class="card--syslog__dot card--syslog__dot--secondary"></span>
+      <span class="card--syslog__text card--syslog__text--secondary">ADULTHOOD_INITIALIZED</span>
+    </li>
+    <li class="card--syslog__item">
+      <span class="card--syslog__dot card--syslog__dot--tertiary"></span>
+      <span class="card--syslog__text card--syslog__text--tertiary">MAGIC_BUFFER_FULL</span>
+    </li>
+  </ul>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card--syslog {
+    background-color: var(--clr-surface-low);
+    padding: var(--sp-4);
+    border: 1px dotted color-mix(in srgb, var(--clr-outline-variant) 30%, transparent);
+  }
+
+  .card--syslog__header {
+    font-size: 0.875rem;
+    color: var(--clr-on-surface-variant);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    margin-bottom: var(--sp-4);
+  }
+
+  .card--syslog__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+
+  .card--syslog__item {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+  }
+
+  .card--syslog__dot {
+    display: block;
+    width: 0.5rem;
+    height: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .card--syslog__dot--primary { background-color: var(--clr-primary); }
+  .card--syslog__dot--secondary { background-color: var(--clr-secondary); }
+  .card--syslog__dot--tertiary { background-color: var(--clr-tertiary); }
+
+  .card--syslog__text {
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .card--syslog__text--primary { color: var(--clr-primary); }
+  .card--syslog__text--secondary { color: var(--clr-secondary); }
+  .card--syslog__text--tertiary { color: var(--clr-tertiary); }
+</style>

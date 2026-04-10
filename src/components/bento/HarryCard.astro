@@ -1,0 +1,78 @@
+---
+import { harryImg } from './assets';
+---
+
+<article class="card card--harry">
+  <div class="card--harry__image-wrap">
+    <img
+      src={harryImg}
+      alt="Harry Styles golden pixel art"
+      class="pixelated card--harry__img"
+      loading="lazy"
+    />
+  </div>
+  <div class="card--harry__meta">
+    <span class="card--harry__file-id">FILE_ID: GOLDEN_.MP3</span>
+    <span class="card--harry__name">HARRY.STYLES</span>
+  </div>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card--harry {
+    background-color: var(--clr-surface-lowest);
+    padding: var(--sp-4);
+    border: 2px dotted color-mix(in srgb, var(--clr-secondary) 20%, transparent);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-3);
+    cursor: crosshair;
+  }
+
+  .card--harry__image-wrap {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--clr-secondary) 10%, transparent);
+  }
+
+  .card--harry__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.9;
+    transition: opacity var(--dur-normal);
+  }
+
+  .card--harry:hover .card--harry__img {
+    opacity: 1;
+  }
+
+  .card--harry__meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card--harry__file-id {
+    font-size: 0.625rem;
+    color: color-mix(in srgb, var(--clr-secondary) 70%, transparent);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .card--harry__name {
+    font-size: 0.75rem;
+    color: var(--clr-on-bg);
+    font-weight: 700;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    margin-top: var(--sp-1);
+  }
+</style>

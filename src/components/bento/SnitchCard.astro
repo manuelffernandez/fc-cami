@@ -1,0 +1,93 @@
+---
+import { snitchImg } from './assets';
+---
+
+<article class="card card--snitch">
+  <div class="card--snitch__glow" aria-hidden="true"></div>
+  <div class="card--snitch__body">
+    <img
+      src={snitchImg}
+      alt="Golden Snitch pixel art"
+      class="pixelated card--snitch__img"
+      loading="lazy"
+    />
+    <div class="card--snitch__info">
+      <p class="card--snitch__name">GOLDEN_SNITCH.JSON</p>
+      <p class="card--snitch__meta">VELOCITY: 800PX/S</p>
+    </div>
+  </div>
+  <span class="card--snitch__ascii" aria-hidden="true">&lt;--[O]--&gt;</span>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card--snitch {
+    background-color: color-mix(in srgb, var(--clr-surface-variant) 40%, transparent);
+    backdrop-filter: blur(12px);
+    border: 1px dotted color-mix(in srgb, var(--clr-tertiary-fixed) 40%, transparent);
+    padding: var(--sp-6);
+  }
+
+  .card--snitch__glow {
+    position: absolute;
+    top: -1rem;
+    right: -1rem;
+    width: 4rem;
+    height: 4rem;
+    background-color: color-mix(in srgb, var(--clr-tertiary-fixed) 10%, transparent);
+    border-radius: 50%;
+    filter: blur(40px);
+    transition: background-color var(--dur-normal);
+  }
+
+  .card--snitch:hover .card--snitch__glow {
+    background-color: color-mix(in srgb, var(--clr-tertiary-fixed) 30%, transparent);
+  }
+
+  .card--snitch__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--sp-8) 0;
+  }
+
+  .card--snitch__img {
+    width: 8rem;
+    height: 8rem;
+    object-fit: contain;
+    margin-bottom: var(--sp-4);
+  }
+
+  .card--snitch__info {
+    text-align: center;
+  }
+
+  .card--snitch__name {
+    color: var(--clr-tertiary);
+    font-weight: 700;
+    letter-spacing: var(--tracking-tight);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+  }
+
+  .card--snitch__meta {
+    font-size: 0.625rem;
+    color: color-mix(in srgb, var(--clr-tertiary-fixed) 60%, transparent);
+    font-family: var(--font-mono);
+    margin-top: var(--sp-1);
+  }
+
+  .card--snitch__ascii {
+    position: absolute;
+    bottom: var(--sp-2);
+    right: var(--sp-2);
+    font-size: 0.5rem;
+    color: color-mix(in srgb, var(--clr-tertiary-fixed) 30%, transparent);
+    font-family: var(--font-mono);
+  }
+</style>

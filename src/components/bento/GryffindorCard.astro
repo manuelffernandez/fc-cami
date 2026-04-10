@@ -1,0 +1,81 @@
+---
+import { gryffindorImg } from './assets';
+---
+
+<article class="card card--gryffindor">
+  <div class="card--gryffindor__image-area">
+    <img
+      src={gryffindorImg}
+      alt="Gryffindor crest pixel art"
+      class="pixelated"
+      loading="lazy"
+    />
+  </div>
+  <h4 class="card--gryffindor__title">TATTOO_SET_ENABLED</h4>
+  <p class="card--gryffindor__sub">Ink // Machine // Design</p>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card--gryffindor {
+    background-color: var(--clr-surface-mid);
+    padding: var(--sp-6);
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border: 1px solid transparent;
+    transition: border-color var(--dur-normal), border-style var(--dur-normal);
+  }
+
+  .card--gryffindor:hover {
+    border: 1px dotted var(--clr-error);
+  }
+
+  .card--gryffindor__image-area {
+    position: absolute;
+    inset: 0 0 5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--sp-4);
+  }
+
+  .card--gryffindor__image-area img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .card--gryffindor__title {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-widest);
+    color: var(--clr-error);
+    position: relative;
+    z-index: 1;
+    margin-top: auto;
+    padding-top: var(--sp-4);
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .card--gryffindor__title {
+      text-align: left;
+    }
+  }
+
+  .card--gryffindor__sub {
+    font-size: 0.625rem;
+    color: var(--clr-on-surface-variant);
+    text-transform: uppercase;
+    margin-top: var(--sp-2);
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+</style>

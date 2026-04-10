@@ -1,0 +1,106 @@
+<article class="card card--celebration">
+  <div class="pixel-star pixel-star--secondary card--celebration__star card--celebration__star--1" aria-hidden="true"></div>
+  <div class="pixel-star pixel-star--primary card--celebration__star card--celebration__star--2" aria-hidden="true"></div>
+  <div class="pixel-star pixel-star--tertiary card--celebration__star card--celebration__star--3" aria-hidden="true"></div>
+
+  <div class="card--celebration__icons">
+    <div class="card--celebration__balloon">
+      <span class="material-symbols-outlined card--celebration__icon card--celebration__icon--secondary" aria-hidden="true">bakery_dining</span>
+      <div class="card--celebration__string card--celebration__string--secondary"></div>
+    </div>
+    <div class="card--celebration__balloon card--celebration__balloon--offset">
+      <span class="material-symbols-outlined card--celebration__icon card--celebration__icon--primary" aria-hidden="true">bakery_dining</span>
+      <div class="card--celebration__string card--celebration__string--primary"></div>
+    </div>
+    <div class="card--celebration__balloon">
+      <span class="material-symbols-outlined card--celebration__icon card--celebration__icon--tertiary" aria-hidden="true">bakery_dining</span>
+      <div class="card--celebration__string card--celebration__string--tertiary"></div>
+    </div>
+  </div>
+
+  <div class="card--celebration__text">
+    <p class="card--celebration__headline">CELEBRATION_LOADED</p>
+    <p class="card--celebration__sub">PARTICLES: 1024_ENABLED</p>
+  </div>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card--celebration {
+    background-color: #1a0633;
+    padding: var(--sp-6);
+    border: 1px dotted var(--clr-outline);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card--celebration__star {
+    position: absolute;
+  }
+
+  .card--celebration__star--1 { top: 1rem; left: 2.5rem; }
+  .card--celebration__star--2 { bottom: 2.5rem; right: 5rem; }
+  .card--celebration__star--3 { top: 5rem; right: 1rem; }
+
+  .card--celebration__icons {
+    display: flex;
+    gap: var(--sp-4);
+    position: relative;
+    z-index: 1;
+  }
+
+  .card--celebration__balloon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card--celebration__balloon--offset {
+    padding-top: var(--sp-4);
+  }
+
+  .card--celebration__icon {
+    font-size: 2.25rem;
+  }
+
+  .card--celebration__icon--secondary { color: var(--clr-secondary); }
+  .card--celebration__icon--primary { color: var(--clr-primary); }
+  .card--celebration__icon--tertiary { color: var(--clr-tertiary); }
+
+  .card--celebration__string {
+    width: 1px;
+    height: 2rem;
+    margin-top: var(--sp-1);
+  }
+
+  .card--celebration__string--secondary { background-color: color-mix(in srgb, var(--clr-secondary) 30%, transparent); }
+  .card--celebration__string--primary { background-color: color-mix(in srgb, var(--clr-primary) 30%, transparent); }
+  .card--celebration__string--tertiary { background-color: color-mix(in srgb, var(--clr-tertiary) 30%, transparent); }
+
+  .card--celebration__text {
+    width: 100%;
+    text-align: center;
+    margin-top: var(--sp-4);
+  }
+
+  .card--celebration__headline {
+    color: var(--clr-secondary);
+    font-weight: 700;
+    font-size: 1.125rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-widest);
+  }
+
+  .card--celebration__sub {
+    font-size: 0.625rem;
+    color: var(--clr-on-surface-variant);
+    font-family: var(--font-mono);
+  }
+</style>
