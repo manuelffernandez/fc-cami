@@ -49,13 +49,14 @@ const harryImg     = 'https://lh3.googleusercontent.com/aida/ADBb0ui7IWQwov4vAHr
         <li>+ CANDLE_COUNT: 18</li>
         <li>+ STATUS: DELICIOUS</li>
       </ul>
-      <button class="card--cake__btn">EAT_CAKE()</button>
+      <button class="card--cake__btn" id="eat-cake-btn">EAT_CAKE()</button>
     </div>
     <div class="card--cake__image-wrap">
       <img
         src={cakeImg}
         alt="Pixel art birthday cake"
         class="pixelated card--cake__img"
+        id="cake-img"
         loading="lazy"
       />
     </div>
@@ -176,7 +177,7 @@ const harryImg     = 'https://lh3.googleusercontent.com/aida/ADBb0ui7IWQwov4vAHr
 
   .card--gryffindor__image-area {
     position: absolute;
-    inset: 0 0 3rem 0;
+    inset: 0 0 5rem 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -197,6 +198,14 @@ const harryImg     = 'https://lh3.googleusercontent.com/aida/ADBb0ui7IWQwov4vAHr
     position: relative;
     z-index: 1;
     margin-top: auto;
+    padding-top: var(--sp-4);
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .card--gryffindor__title {
+      text-align: left;
+    }
   }
 
   .card--gryffindor__sub {
@@ -204,6 +213,7 @@ const harryImg     = 'https://lh3.googleusercontent.com/aida/ADBb0ui7IWQwov4vAHr
     color: var(--clr-on-surface-variant);
     text-transform: uppercase;
     margin-top: var(--sp-2);
+    text-align: center;
     position: relative;
     z-index: 1;
   }
@@ -293,6 +303,13 @@ const harryImg     = 'https://lh3.googleusercontent.com/aida/ADBb0ui7IWQwov4vAHr
 
   .card--cake__info {
     flex: 1;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .card--cake__info {
+      text-align: left;
+    }
   }
 
   .card--cake__label {
@@ -341,9 +358,73 @@ const harryImg     = 'https://lh3.googleusercontent.com/aida/ADBb0ui7IWQwov4vAHr
     box-shadow: var(--shadow-btn-hover);
   }
 
+  /* ── EAT_CAKE() animation states ── */
+
+  @keyframes btn-eating-shake {
+    0%, 100% { transform: translateX(0) rotate(0deg); }
+    20%       { transform: translateX(-3px) rotate(-1.5deg); }
+    40%       { transform: translateX( 3px) rotate( 1.5deg); }
+    60%       { transform: translateX(-2px) rotate(-0.8deg); }
+    80%       { transform: translateX( 2px) rotate( 0.8deg); }
+  }
+
+  @keyframes btn-eating-color {
+    0%, 100% { background-color: var(--clr-primary);   color: var(--clr-on-primary); }
+    50%       { background-color: var(--clr-secondary); color: var(--clr-on-secondary); }
+  }
+
+  /* Solo rotación — sin translateX para que al detener la animación
+     no haya residuo de posición horizontal                          */
+  @keyframes cake-chomp {
+    0%, 100% { transform: rotate(0deg); }
+    25%       { transform: rotate(-4deg); }
+    75%       { transform: rotate( 4deg); }
+  }
+
+  /* Siempre arranca desde scale(1) para que el reset sea limpio */
+  @keyframes cake-eaten {
+    0%   { transform: scale(1)    rotate(0deg);  opacity: 1; }
+    40%  { transform: scale(0.55) rotate(-6deg); opacity: 0.7; }
+    100% { transform: scale(0.15) rotate(18deg); opacity: 0;   filter: blur(4px); }
+  }
+
+  @keyframes crumb-scatter {
+    0%   { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--crumb-dx), var(--crumb-dy)) scale(0); opacity: 0; }
+  }
+
+  .card--cake__btn.is-eating {
+    animation:
+      btn-eating-shake 0.25s ease-in-out infinite,
+      btn-eating-color  0.5s  ease-in-out infinite;
+    cursor: wait;
+  }
+
+  .card--cake__btn.is-eaten {
+    background-color: var(--clr-tertiary-fixed);
+    color: var(--clr-on-tertiary);
+    box-shadow: var(--shadow-btn-hover);
+  }
+
+  .card--cake__img.is-being-eaten {
+    animation: cake-chomp 0.25s ease-in-out infinite;
+    transform-origin: center bottom;
+  }
+
+  .card--cake__img.is-eaten {
+    animation: cake-eaten 0.7s ease-out forwards;
+    transform-origin: center bottom;
+  }
+
+  /* .cake-crumb y @keyframes crumb-scatter se definen en is:global
+     porque los elementos son creados dinámicamente via JS y no
+     reciben el atributo data-astro-cid del scoping automático     */
+
   .card--cake__image-wrap {
-    width: 100%;
+    /* mobile: cuadrado centrado de ancho fijo para mantener 1:1 */
+    width: 8rem;
     height: 8rem;
+    margin: 0 auto;
     background-color: var(--clr-surface-lowest);
     border: 1px solid color-mix(in srgb, var(--clr-primary) 20%, transparent);
     padding: var(--sp-2);
@@ -354,7 +435,7 @@ const harryImg     = 'https://lh3.googleusercontent.com/aida/ADBb0ui7IWQwov4vAHr
 
   @media (min-width: 768px) {
     .card--cake__image-wrap {
-      width: 8rem;
+      margin: 0;
     }
   }
 
@@ -447,7 +528,7 @@ const harryImg     = 'https://lh3.googleusercontent.com/aida/ADBb0ui7IWQwov4vAHr
   }
 
   .card--syslog__header {
-    font-size: 0.625rem;
+    font-size: 0.875rem;
     color: var(--clr-on-surface-variant);
     font-family: var(--font-mono);
     text-transform: uppercase;
@@ -479,7 +560,7 @@ const harryImg     = 'https://lh3.googleusercontent.com/aida/ADBb0ui7IWQwov4vAHr
   .card--syslog__dot--tertiary  { background-color: var(--clr-tertiary);  }
 
   .card--syslog__text {
-    font-size: 0.625rem;
+    font-size: 0.875rem;
     font-weight: 700;
     text-transform: uppercase;
   }
@@ -542,3 +623,93 @@ const harryImg     = 'https://lh3.googleusercontent.com/aida/ADBb0ui7IWQwov4vAHr
     margin-top: var(--sp-1);
   }
 </style>
+
+<!-- Estilos globales: aplican a elementos creados dinámicamente por JS -->
+<style is:global>
+  @keyframes crumb-scatter {
+    0%   { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--crumb-dx), var(--crumb-dy)) scale(0); opacity: 0; }
+  }
+
+  .cake-crumb {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    animation: crumb-scatter 0.9s ease-out forwards;
+  }
+</style>
+
+<script>
+  const btn     = document.getElementById('eat-cake-btn') as HTMLButtonElement;
+  const img     = document.getElementById('cake-img')     as HTMLImageElement;
+  const card    = btn?.closest('.card--cake')             as HTMLElement;
+
+  if (!btn || !img) throw new Error('EAT_CAKE: elementos no encontrados');
+
+  const COLORS = ['#8ff5ff', '#ff51fa', '#effe41', '#f0dfff', '#ff6e84'];
+
+  function spawnCrumbs(): void {
+    const rect    = btn.getBoundingClientRect();
+    // Coordenadas fixed (viewport) — origin en el centro del botón
+    const originX = rect.left + rect.width  / 2;
+    const originY = rect.top  + rect.height / 2;
+
+    for (let i = 0; i < 20; i++) {
+      const crumb = document.createElement('div');
+      crumb.className = 'cake-crumb';
+
+      const size  = Math.random() * 6 + 3;
+      const angle = Math.random() * Math.PI * 2;
+      const dist  = Math.random() * 110 + 40;
+      const dx    = Math.cos(angle) * dist;
+      const dy    = Math.sin(angle) * dist - 40; // sesgo hacia arriba
+
+      crumb.style.cssText = [
+        `left: ${originX}px`,
+        `top: ${originY}px`,
+        `width: ${size}px`,
+        `height: ${size}px`,
+        `background: ${COLORS[Math.floor(Math.random() * COLORS.length)]}`,
+        `--crumb-dx: ${dx}px`,
+        `--crumb-dy: ${dy}px`,
+      ].join(';');
+
+      // Se appendea al body para que ningún overflow lo clipee
+      document.body.appendChild(crumb);
+      setTimeout(() => crumb.remove(), 1000);
+    }
+  }
+
+  let isEating = false;
+
+  btn.addEventListener('click', () => {
+    if (isEating) return;
+    isEating = true;
+
+    // Fase 1 — comiendo
+    btn.textContent = 'EATING...';
+    btn.classList.add('is-eating');
+    img.classList.add('is-being-eaten');
+
+    // Fase 2 — torta comida
+    setTimeout(() => {
+      spawnCrumbs();
+      btn.textContent = 'CAKE_EATEN: TRUE';
+      btn.classList.replace('is-eating', 'is-eaten');
+
+      // Detenemos el chomp y forzamos reflow para que cake-eaten
+      // arranque siempre desde transform:none (scale 1, rotate 0)
+      img.classList.remove('is-being-eaten');
+      void img.offsetHeight;
+      img.classList.add('is-eaten');
+    }, 1800);
+
+    // Fase 3 — reset
+    setTimeout(() => {
+      btn.textContent = 'EAT_CAKE()';
+      btn.classList.remove('is-eaten');
+      img.classList.remove('is-eaten');
+      isEating = false;
+    }, 4400);
+  });
+</script>
