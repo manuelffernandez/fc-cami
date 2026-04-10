@@ -1,6 +1,6 @@
 ---
 ---
-<article class="terminal" aria-label="Terminal de celebración">
+<article class="terminal" aria-label="Terminal de celebración" data-terminal-panel>
   <!-- Window chrome -->
   <header class="terminal__chrome">
     <div class="terminal__dots" aria-hidden="true">
@@ -15,7 +15,7 @@
   <!-- Output -->
   <div class="terminal__body">
     <p class="terminal__line terminal__line--muted">
-      Last login: Tue Aug 20 00:00:01 2024 from earth.v3
+      Last login: Thu Apr 10 00:00:01 2025 from earth.v3
     </p>
     <p class="terminal__line">
       <span class="terminal__prompt-user">root@celebration:</span><span class="terminal__prompt-symbol">~#</span> sudo init adulthood
@@ -35,9 +35,107 @@
       <span class="terminal__tag terminal__tag--tertiary">MAGIC_LEVEL: MAX</span>
     </div>
 
-    <p class="terminal__cursor terminal__line--padded cursor-blink" aria-hidden="true">_</p>
+    <div class="terminal__input terminal__line--padded" data-terminal-input>
+      <span class="terminal__prompt" aria-hidden="true">
+        <span class="terminal__prompt-user">root@celebration:</span><span class="terminal__prompt-symbol">~#</span>
+      </span>
+      <textarea
+        class="terminal__textarea"
+        aria-label="Terminal editable"
+        autocapitalize="off"
+        autocomplete="off"
+        autocorrect="off"
+        data-terminal-textarea
+        enterkeyhint="enter"
+        inputmode="text"
+        rows="1"
+        spellcheck="false"
+      ></textarea>
+    </div>
   </div>
 </article>
+
+<script>
+  const terminals = document.querySelectorAll('[data-terminal-input]');
+
+  const moveCaretToEnd = (textarea) => {
+    const cursorAtEnd = textarea.value.length;
+    textarea.setSelectionRange(cursorAtEnd, cursorAtEnd);
+  };
+
+  const requestTerminalAttention = (textarea) => {
+    const terminal = textarea.closest('[data-terminal-panel]');
+
+    if (!(terminal instanceof HTMLElement)) {
+      return;
+    }
+
+    terminal.classList.remove('terminal--attention');
+    void terminal.offsetWidth;
+    terminal.classList.add('terminal--attention');
+    textarea.focus();
+    moveCaretToEnd(textarea);
+  };
+
+  const syncTerminalInput = (container) => {
+    const body = container.closest('.terminal')?.querySelector('.terminal__body');
+    const textarea = container.querySelector('[data-terminal-textarea]');
+
+    if (!(body instanceof HTMLElement) || !(textarea instanceof HTMLTextAreaElement)) {
+      return;
+    }
+
+    const resize = () => {
+      textarea.style.height = '0px';
+      textarea.style.height = `${textarea.scrollHeight}px`;
+      body.scrollTop = body.scrollHeight;
+    };
+
+    container.addEventListener('click', (event) => {
+      if (event.target === textarea) {
+        return;
+      }
+
+      textarea.focus();
+      moveCaretToEnd(textarea);
+    });
+
+    document.addEventListener('terminal:focus-request', () => {
+      requestTerminalAttention(textarea);
+    });
+
+    textarea.addEventListener('keydown', (event) => {
+      const isPlainCharacter = event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey;
+      const isAllowedKey = isPlainCharacter || event.key === 'Backspace' || event.key === 'Delete' || event.key === 'Enter';
+
+      if (!isAllowedKey) {
+        event.preventDefault();
+      }
+    });
+
+    textarea.addEventListener('beforeinput', (event) => {
+      const allowedTypes = new Set([
+        'insertText',
+        'insertCompositionText',
+        'insertLineBreak',
+        'insertParagraph',
+        'deleteContentBackward',
+        'deleteContentForward',
+      ]);
+
+      if (!allowedTypes.has(event.inputType)) {
+        event.preventDefault();
+      }
+    });
+
+    textarea.addEventListener('input', resize);
+    textarea.addEventListener('focus', resize);
+
+    resize();
+  };
+
+  terminals.forEach((terminal) => syncTerminalInput(terminal));
+</script>
 
 <style>
   .terminal {
@@ -45,6 +143,38 @@
     border: 1px dotted var(--clr-outline-variant);
     padding: var(--sp-1);
     box-shadow: var(--shadow-panel);
+  }
+
+  .terminal--attention {
+    animation: terminal-attention 760ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @keyframes terminal-attention {
+    0% {
+      border-color: var(--clr-outline-variant);
+      box-shadow: var(--shadow-panel);
+    }
+
+    38% {
+      border-color: color-mix(in srgb, var(--clr-primary) 88%, white 12%);
+      box-shadow:
+        var(--shadow-panel),
+        0 0 0 0.2rem color-mix(in srgb, var(--clr-primary) 42%, transparent),
+        0 0 1.25rem color-mix(in srgb, var(--clr-primary) 32%, transparent);
+    }
+
+    68% {
+      border-color: color-mix(in srgb, var(--clr-primary) 72%, white 28%);
+      box-shadow:
+        var(--shadow-panel),
+        0 0 0 0.16rem color-mix(in srgb, var(--clr-primary) 28%, transparent),
+        0 0 0.85rem color-mix(in srgb, var(--clr-primary) 20%, transparent);
+    }
+
+    100% {
+      border-color: var(--clr-outline-variant);
+      box-shadow: var(--shadow-panel);
+    }
   }
 
   /* ── Chrome (title bar) ── */
@@ -90,6 +220,24 @@
     font-family: var(--font-mono);
     font-size: 0.875rem;
     color: var(--clr-primary-dim);
+    block-size: clamp(18rem, 42vw, 24rem);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--clr-primary) color-mix(in srgb, var(--clr-primary) 12%, transparent);
+  }
+
+  .terminal__body::-webkit-scrollbar {
+    width: 0.875rem;
+  }
+
+  .terminal__body::-webkit-scrollbar-track {
+    background-color: color-mix(in srgb, var(--clr-primary) 12%, transparent);
+    border-left: 1px solid color-mix(in srgb, var(--clr-outline-variant) 50%, transparent);
+  }
+
+  .terminal__body::-webkit-scrollbar-thumb {
+    background-color: var(--clr-primary);
+    border: 2px solid var(--clr-surface-low);
   }
 
   .terminal__line {
@@ -104,6 +252,44 @@
 
   .terminal__prompt-user   { color: var(--clr-secondary); }
   .terminal__prompt-symbol { color: var(--clr-primary); }
+
+  .terminal__input {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-2);
+    color: var(--clr-primary);
+    cursor: text;
+  }
+
+  .terminal__prompt {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .terminal__textarea {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    margin: 0;
+    resize: none;
+    overflow: hidden;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    line-height: inherit;
+    caret-color: var(--clr-primary);
+    outline: none;
+    field-sizing: content;
+  }
+
+  .terminal__textarea::placeholder {
+    color: transparent;
+  }
+
+  .terminal__textarea:focus-visible {
+    outline: none;
+  }
 
   /* ── Inline tags ── */
   .terminal__tags {
@@ -136,8 +322,14 @@
     border: 1px solid color-mix(in srgb, var(--clr-tertiary) 40%, transparent);
   }
 
-  .terminal__cursor {
-    color: var(--clr-primary);
-    cursor: default;
+  @media (max-width: 40rem) {
+    .terminal__body {
+      block-size: 18rem;
+      padding: var(--sp-5);
+    }
+
+    .terminal__input {
+      gap: var(--sp-1);
+    }
   }
 </style>

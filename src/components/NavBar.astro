@@ -7,10 +7,20 @@
     <a href="#" class="navbar__link navbar__link--active" role="listitem">SYSTEM</a>
   </div>
 
-  <button class="navbar__icon-btn" aria-label="Abrir terminal">
+  <button class="navbar__icon-btn" aria-label="Abrir terminal" data-terminal-trigger>
     <span class="material-symbols-outlined" aria-hidden="true">terminal</span>
   </button>
 </nav>
+
+<script>
+  const terminalTrigger = document.querySelector('[data-terminal-trigger]');
+
+  if (terminalTrigger instanceof HTMLButtonElement) {
+    terminalTrigger.addEventListener('click', () => {
+      document.dispatchEvent(new CustomEvent('terminal:focus-request'));
+    });
+  }
+</script>
 
 <style>
   .navbar {
