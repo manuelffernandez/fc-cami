@@ -27,11 +27,18 @@ const asciiArt = `'########:'########:'##:::::::'####:'########:
 . ######:: ##:::: ##: ##:::: ##:'####:
 :......:::..:::::..::..:::::..::....::
 `;
+
+const asciiCharacters = Array.from(asciiArt);
 ---
 
 <section class="hero" aria-label="Cabecera de cumpleaños">
-  <div class="hero__ascii ascii-text" aria-label="FELIZ CUMPLEAÑOS">
-    {asciiArt}
+  <div
+    class="hero__ascii ascii-text"
+    aria-label="FELIZ CUMPLEAÑOS CAMI"
+    data-hero-ascii
+    role="img"
+  >
+    {asciiCharacters.map((char) => <span class="hero__glyph" data-animatable={char.trim() ? 'true' : 'false'} data-original-code={char.charCodeAt(0)}>{char}</span>)}
   </div>
 
   <div class="hero__badges">
@@ -39,6 +46,105 @@ const asciiArt = `'########:'########:'##:::::::'####:'########:
     <span class="badge badge--primary">MEMORY: 2008-2026</span>
   </div>
 </section>
+
+<script>
+  const GLITCH_COLORS = ['#ffe066', '#ff4fd8', '#ffffff'];
+  const GLITCH_SYMBOLS = ['@', '#', '%', '&', '*', '+', '?', '=', '/', '\\'];
+  const MAX_ACTIVE_GLYPHS = 7;
+  const GLITCH_STEPS_MIN = 5;
+  const GLITCH_STEPS_MAX = 7;
+  const GLITCH_STEP_DELAY_MIN = 180;
+  const GLITCH_STEP_DELAY_MAX = 280;
+  const GLITCH_PULSE_DELAY_MIN = 260;
+  const GLITCH_PULSE_DELAY_MAX = 520;
+
+  const randomBetween = (min, max) =>
+    Math.floor(Math.random() * (max - min + 1)) + min;
+
+  const randomFrom = (values) => values[randomBetween(0, values.length - 1)];
+
+  const restoreGlyph = (glyph) => {
+    glyph.textContent = String.fromCharCode(Number(glyph.dataset.originalCode));
+    glyph.style.color = '';
+    glyph.dataset.mutated = 'false';
+  };
+
+  const animateGlyph = (glyph, activeGlyphs) => {
+    activeGlyphs.add(glyph);
+
+    let stepsLeft = randomBetween(GLITCH_STEPS_MIN, GLITCH_STEPS_MAX);
+
+    const mutate = () => {
+      if (stepsLeft <= 0) {
+        restoreGlyph(glyph);
+        activeGlyphs.delete(glyph);
+        return;
+      }
+
+      const nextColor = randomFrom(GLITCH_COLORS);
+
+      glyph.textContent = randomFrom(GLITCH_SYMBOLS);
+      glyph.style.color = nextColor;
+      glyph.dataset.mutated = 'true';
+
+      stepsLeft -= 1;
+      window.setTimeout(
+        mutate,
+        randomBetween(GLITCH_STEP_DELAY_MIN, GLITCH_STEP_DELAY_MAX),
+      );
+    };
+
+    mutate();
+  };
+
+  const initHeroAscii = (container) => {
+    if (container.dataset.glitchInitialized === 'true') {
+      return;
+    }
+
+    container.dataset.glitchInitialized = 'true';
+
+    const glyphs = Array.from(container.querySelectorAll('.hero__glyph'));
+    const animatableGlyphs = glyphs.filter(
+      (glyph) => glyph.dataset.animatable === 'true',
+    );
+    const activeGlyphs = new Set();
+
+    const scheduleNextPulse = () => {
+      window.setTimeout(() => {
+        const availableGlyphs = animatableGlyphs.filter(
+          (glyph) => !activeGlyphs.has(glyph),
+        );
+
+        if (availableGlyphs.length > 0 && activeGlyphs.size < MAX_ACTIVE_GLYPHS) {
+          const burstCount = Math.min(
+            MAX_ACTIVE_GLYPHS - activeGlyphs.size,
+            Math.random() < 0.8 ? 1 : 2,
+          );
+
+          for (let index = 0; index < burstCount; index += 1) {
+            if (availableGlyphs.length === 0) {
+              break;
+            }
+
+            const nextGlyphIndex = randomBetween(0, availableGlyphs.length - 1);
+            const [nextGlyph] = availableGlyphs.splice(nextGlyphIndex, 1);
+
+            animateGlyph(nextGlyph, activeGlyphs);
+          }
+        }
+
+        scheduleNextPulse();
+      }, randomBetween(GLITCH_PULSE_DELAY_MIN, GLITCH_PULSE_DELAY_MAX));
+    };
+
+    scheduleNextPulse();
+  };
+
+  document
+    .querySelectorAll('[data-hero-ascii]')
+    .forEach((container) => initHeroAscii(container));
+</script>
 
 <style>
   .hero {
@@ -61,6 +167,11 @@ const asciiArt = `'########:'########:'##:::::::'####:'########:
     /* el bloque de CUMPLEANOS tiene ~105 chars; en pantallas chicas se clipa */
     max-width: 100%;
     overflow-x: auto;
+  }
+
+  .hero__glyph {
+    color: inherit;
+    transition: color 120ms ease-out;
   }
 
   @media (min-width: 768px) {
