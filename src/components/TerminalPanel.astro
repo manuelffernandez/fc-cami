@@ -80,15 +80,31 @@
   const syncTerminalInput = (container) => {
     const body = container.closest('.terminal')?.querySelector('.terminal__body');
     const textarea = container.querySelector('[data-terminal-textarea]');
+    let resizeFrame = 0;
+    let previousTextareaHeight = 0;
 
     if (!(body instanceof HTMLElement) || !(textarea instanceof HTMLTextAreaElement)) {
       return;
     }
 
-    const resize = () => {
-      textarea.style.height = '0px';
-      textarea.style.height = `${textarea.scrollHeight}px`;
-      body.scrollTop = body.scrollHeight;
+    const resize = ({ forceScroll = false } = {}) => {
+      textarea.style.height = 'auto';
+
+      const nextHeight = textarea.scrollHeight;
+      textarea.style.height = `${nextHeight}px`;
+
+      if (forceScroll || nextHeight !== previousTextareaHeight) {
+        body.scrollTop = body.scrollHeight;
+      }
+
+      previousTextareaHeight = nextHeight;
+    };
+
+    const scheduleResize = (options) => {
+      cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(() => {
+        resize(options);
+      });
     };
 
     container.addEventListener('click', (event) => {
@@ -128,10 +144,10 @@
       }
     });
 
-    textarea.addEventListener('input', resize);
-    textarea.addEventListener('focus', resize);
+    textarea.addEventListener('input', () => scheduleResize());
+    textarea.addEventListener('focus', () => scheduleResize({ forceScroll: true }));
 
-    resize();
+    resize({ forceScroll: true });
   };
 
   terminals.forEach((terminal) => syncTerminalInput(terminal));
@@ -268,6 +284,8 @@
 
   .terminal__textarea {
     flex: 1 1 auto;
+    display: block;
+    inline-size: 100%;
     min-width: 0;
     padding: 0;
     border: 0;
@@ -280,7 +298,6 @@
     line-height: inherit;
     caret-color: var(--clr-primary);
     outline: none;
-    field-sizing: content;
   }
 
   .terminal__textarea::placeholder {
