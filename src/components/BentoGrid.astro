@@ -1,0 +1,544 @@
+---
+const gryffindorImg = 'https://lh3.googleusercontent.com/aida/ADBb0uhbeFEbwNjGUt8JycTHyEGkt7_2nn7IWrHNSFv6NK6GOjcSMQdp6HCTTI6ByUHyNSfjqgJQmmybOvBgYv_pXk5Yb3O66txOQUnddJai-YC4vvzR1YhYaX438xVKO8ehs-YXfM4WOpZHTAl9REmuMPu3G6nfif56JZEssydqjc_DPgCwpsLGO0wfD9AKrgon74aPR6MgPAZer9C8gJKu28tmESERFWwkAoZWkoJRZr1w7DQEx2U3IEL9cM4JpWeQa9pi7DAwqMPHta4';
+const snitchImg    = 'https://lh3.googleusercontent.com/aida/ADBb0ujwjyj5FgYcM0UBPcja_XJWBDsVcU7NWRAA_pncyxaPe-aLTR1KYUBHfGdYxRrmOAfQwTx9mqCx_GiRt3yzB-BA8rpGkxtxaf_21iZvy0fZRUbHC3CRDlBy2X-ii22ry3WBgjW4kKDJNK8_LzdyB8bU7oChU0kEySmnYBdGyiPtB8-haaALpUIHVzNfDwk1BVuU166OavHLW-4bfEhalu5PN6tVjjeTm6EFAy_zGa0mlat53lhdHBgnX_sQVhBGCUy8FhR9HQvycY0';
+const cakeImg      = 'https://lh3.googleusercontent.com/aida/ADBb0uhgmfoQvhER2k_oo2FWYanGElh83rf9KvuRMdwGdebjX3paSLEar9heRa-BtaOD5ulfLfYhHxzGT-eHOIvBrE_H0c8yva7S4FBrO_v9OzGXneFJs-qF4msSzE9jpN9cjzuLibf5xVMDWlClru8xy8zJiFJ3JVIj6HQ9XX1Kh8_yQ8hfqi9LwaGiyk-h0CDtM4r7ZHgB6ybd_PGWTrQp9hvIK36_WUNuBNsHukCFv9nU1FpZ-Nviy8Xl5hr7NNJlTlk_-0iHWJk2zQ';
+const harryImg     = 'https://lh3.googleusercontent.com/aida/ADBb0ui7IWQwov4vAHrsKXEowMrpldrT9ytGNwRLIByVanJA_QoprqxB4EpAAFkyq2rr22QGElzOTiCe04VR1cjpJuxc_6EYS8RprZDiPnO490WbTzPqSSjmZZ7UQv91gVmFQOcikrZ-I4vT_gcFZ5vsJFRSfJSw6_QSo_64e57pf-Q-vcI6s1TZsjp9oHfq8yIwv5uvu09cbpUp_GHCaEqSVZlnNkM0ETmNxm-hfseWHYTXngLp6tPa4GxFODTwlznLq1KpmdVt1xKC9Q';
+---
+
+<section class="bento" aria-label="Colección de elementos">
+
+  <!-- 1. Gryffindor crest -->
+  <article class="card card--gryffindor">
+    <div class="card--gryffindor__image-area">
+      <img
+        src={gryffindorImg}
+        alt="Gryffindor crest pixel art"
+        class="pixelated"
+        loading="lazy"
+      />
+    </div>
+    <h4 class="card--gryffindor__title">TATTOO_SET_ENABLED</h4>
+    <p class="card--gryffindor__sub">Ink // Machine // Design</p>
+  </article>
+
+  <!-- 2. Golden Snitch -->
+  <article class="card card--snitch">
+    <div class="card--snitch__glow" aria-hidden="true"></div>
+    <div class="card--snitch__body">
+      <img
+        src={snitchImg}
+        alt="Golden Snitch pixel art"
+        class="pixelated card--snitch__img"
+        loading="lazy"
+      />
+      <div class="card--snitch__info">
+        <p class="card--snitch__name">GOLDEN_SNITCH.JSON</p>
+        <p class="card--snitch__meta">VELOCITY: 800PX/S</p>
+      </div>
+    </div>
+    <span class="card--snitch__ascii" aria-hidden="true">&lt;--[O]--&gt;</span>
+  </article>
+
+  <!-- 3. Birthday Cake (wide card) -->
+  <article class="card card--cake">
+    <div class="card--cake__info">
+      <p class="card--cake__label">&gt;&gt; SYSTEM.INVENTORY.ITEM_042</p>
+      <h2 class="card--cake__title">THE_CAKE.EXE</h2>
+      <ul class="card--cake__list">
+        <li>+ VIRTUAL_FLAVOR: CHOCOTORTA</li>
+        <li>+ CANDLE_COUNT: 18</li>
+        <li>+ STATUS: DELICIOUS</li>
+      </ul>
+      <button class="card--cake__btn">EAT_CAKE()</button>
+    </div>
+    <div class="card--cake__image-wrap">
+      <img
+        src={cakeImg}
+        alt="Pixel art birthday cake"
+        class="pixelated card--cake__img"
+        loading="lazy"
+      />
+    </div>
+  </article>
+
+  <!-- 4. Celebration / balloons -->
+  <article class="card card--celebration">
+    <div class="pixel-star pixel-star--secondary card--celebration__star card--celebration__star--1" aria-hidden="true"></div>
+    <div class="pixel-star pixel-star--primary   card--celebration__star card--celebration__star--2" aria-hidden="true"></div>
+    <div class="pixel-star pixel-star--tertiary  card--celebration__star card--celebration__star--3" aria-hidden="true"></div>
+
+    <div class="card--celebration__icons">
+      <div class="card--celebration__balloon">
+        <span class="material-symbols-outlined card--celebration__icon card--celebration__icon--secondary" aria-hidden="true">bakery_dining</span>
+        <div class="card--celebration__string card--celebration__string--secondary"></div>
+      </div>
+      <div class="card--celebration__balloon card--celebration__balloon--offset">
+        <span class="material-symbols-outlined card--celebration__icon card--celebration__icon--primary" aria-hidden="true">bakery_dining</span>
+        <div class="card--celebration__string card--celebration__string--primary"></div>
+      </div>
+      <div class="card--celebration__balloon">
+        <span class="material-symbols-outlined card--celebration__icon card--celebration__icon--tertiary" aria-hidden="true">bakery_dining</span>
+        <div class="card--celebration__string card--celebration__string--tertiary"></div>
+      </div>
+    </div>
+
+    <div class="card--celebration__text">
+      <p class="card--celebration__headline">CELEBRATION_LOADED</p>
+      <p class="card--celebration__sub">PARTICLES: 1024_ENABLED</p>
+    </div>
+  </article>
+
+  <!-- 5. System log -->
+  <article class="card card--syslog">
+    <p class="card--syslog__header">SYSTEM_LOG_18</p>
+    <ul class="card--syslog__list">
+      <li class="card--syslog__item">
+        <span class="card--syslog__dot card--syslog__dot--primary"></span>
+        <span class="card--syslog__text card--syslog__text--primary">18_YEARS_RUNNING</span>
+      </li>
+      <li class="card--syslog__item">
+        <span class="card--syslog__dot card--syslog__dot--secondary"></span>
+        <span class="card--syslog__text card--syslog__text--secondary">ADULTHOOD_INITIALIZED</span>
+      </li>
+      <li class="card--syslog__item">
+        <span class="card--syslog__dot card--syslog__dot--tertiary"></span>
+        <span class="card--syslog__text card--syslog__text--tertiary">MAGIC_BUFFER_FULL</span>
+      </li>
+    </ul>
+  </article>
+
+  <!-- 6. Harry Styles pixel art -->
+  <article class="card card--harry">
+    <div class="card--harry__image-wrap">
+      <img
+        src={harryImg}
+        alt="Harry Styles golden pixel art"
+        class="pixelated card--harry__img"
+        loading="lazy"
+      />
+    </div>
+    <div class="card--harry__meta">
+      <span class="card--harry__file-id">FILE_ID: GOLDEN_.IMG</span>
+      <span class="card--harry__name">HARRY.STYLES</span>
+    </div>
+  </article>
+
+</section>
+
+<style>
+  /* ── Grid ── */
+  .bento {
+    margin-top: var(--sp-12);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
+  }
+
+  @media (min-width: 768px) {
+    .bento {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .card--cake {
+      grid-column: span 2;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .bento {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .card--celebration {
+      grid-column: span 2;
+    }
+  }
+
+  /* ── Shared card base ── */
+  .card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── 1. Gryffindor ── */
+  .card--gryffindor {
+    background-color: var(--clr-surface-mid);
+    padding: var(--sp-6);
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border: 1px solid transparent;
+    transition: border-color var(--dur-normal), border-style var(--dur-normal);
+  }
+
+  .card--gryffindor:hover {
+    border: 1px dotted var(--clr-error);
+  }
+
+  .card--gryffindor__image-area {
+    position: absolute;
+    inset: 0 0 3rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--sp-4);
+  }
+
+  .card--gryffindor__image-area img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .card--gryffindor__title {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-widest);
+    color: var(--clr-error);
+    position: relative;
+    z-index: 1;
+    margin-top: auto;
+  }
+
+  .card--gryffindor__sub {
+    font-size: 0.625rem;
+    color: var(--clr-on-surface-variant);
+    text-transform: uppercase;
+    margin-top: var(--sp-2);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── 2. Snitch ── */
+  .card--snitch {
+    background-color: color-mix(in srgb, var(--clr-surface-variant) 40%, transparent);
+    backdrop-filter: blur(12px);
+    border: 1px dotted color-mix(in srgb, var(--clr-tertiary-fixed) 40%, transparent);
+    padding: var(--sp-6);
+  }
+
+  .card--snitch__glow {
+    position: absolute;
+    top: -1rem;
+    right: -1rem;
+    width: 4rem;
+    height: 4rem;
+    background-color: color-mix(in srgb, var(--clr-tertiary-fixed) 10%, transparent);
+    border-radius: 50%;
+    filter: blur(40px);
+    transition: background-color var(--dur-normal);
+  }
+
+  .card--snitch:hover .card--snitch__glow {
+    background-color: color-mix(in srgb, var(--clr-tertiary-fixed) 30%, transparent);
+  }
+
+  .card--snitch__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--sp-8) 0;
+  }
+
+  .card--snitch__img {
+    width: 8rem;
+    height: 8rem;
+    object-fit: contain;
+    margin-bottom: var(--sp-4);
+  }
+
+  .card--snitch__info {
+    text-align: center;
+  }
+
+  .card--snitch__name {
+    color: var(--clr-tertiary);
+    font-weight: 700;
+    letter-spacing: var(--tracking-tight);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+  }
+
+  .card--snitch__meta {
+    font-size: 0.625rem;
+    color: color-mix(in srgb, var(--clr-tertiary-fixed) 60%, transparent);
+    font-family: var(--font-mono);
+    margin-top: var(--sp-1);
+  }
+
+  .card--snitch__ascii {
+    position: absolute;
+    bottom: var(--sp-2);
+    right: var(--sp-2);
+    font-size: 0.5rem;
+    color: color-mix(in srgb, var(--clr-tertiary-fixed) 30%, transparent);
+    font-family: var(--font-mono);
+  }
+
+  /* ── 3. Cake ── */
+  .card--cake {
+    background-color: var(--clr-surface-high);
+    border: 1px dotted color-mix(in srgb, var(--clr-primary) 20%, transparent);
+    padding: var(--sp-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-6);
+  }
+
+  @media (min-width: 768px) {
+    .card--cake {
+      flex-direction: row;
+    }
+  }
+
+  .card--cake__info {
+    flex: 1;
+  }
+
+  .card--cake__label {
+    font-size: 0.625rem;
+    color: color-mix(in srgb, var(--clr-primary) 60%, transparent);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    margin-bottom: var(--sp-2);
+  }
+
+  .card--cake__title {
+    color: var(--clr-primary);
+    font-size: 1.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-tight);
+    line-height: 1;
+    margin-bottom: var(--sp-4);
+  }
+
+  .card--cake__list {
+    list-style: none;
+    font-size: 0.75rem;
+    color: var(--clr-on-surface-variant);
+    font-family: var(--font-mono);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+  }
+
+  .card--cake__btn {
+    margin-top: var(--sp-6);
+    background-color: var(--clr-primary);
+    color: var(--clr-on-primary);
+    padding: var(--sp-2) var(--sp-4);
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    transition: box-shadow var(--dur-fast);
+  }
+
+  .card--cake__btn:hover {
+    box-shadow: var(--shadow-btn-hover);
+  }
+
+  .card--cake__image-wrap {
+    width: 100%;
+    height: 8rem;
+    background-color: var(--clr-surface-lowest);
+    border: 1px solid color-mix(in srgb, var(--clr-primary) 20%, transparent);
+    padding: var(--sp-2);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .card--cake__image-wrap {
+      width: 8rem;
+    }
+  }
+
+  .card--cake__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── 4. Celebration ── */
+  .card--celebration {
+    background-color: #1a0633;
+    padding: var(--sp-6);
+    border: 1px dotted var(--clr-outline);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card--celebration__star {
+    position: absolute;
+  }
+
+  .card--celebration__star--1 { top: 1rem;  left: 2.5rem; }
+  .card--celebration__star--2 { bottom: 2.5rem; right: 5rem; }
+  .card--celebration__star--3 { top: 5rem;  right: 1rem;  }
+
+  .card--celebration__icons {
+    display: flex;
+    gap: var(--sp-4);
+    position: relative;
+    z-index: 1;
+  }
+
+  .card--celebration__balloon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card--celebration__balloon--offset {
+    padding-top: var(--sp-4);
+  }
+
+  .card--celebration__icon {
+    font-size: 2.25rem;
+  }
+
+  .card--celebration__icon--secondary { color: var(--clr-secondary); }
+  .card--celebration__icon--primary   { color: var(--clr-primary);   }
+  .card--celebration__icon--tertiary  { color: var(--clr-tertiary);  }
+
+  .card--celebration__string {
+    width: 1px;
+    height: 2rem;
+    margin-top: var(--sp-1);
+  }
+
+  .card--celebration__string--secondary { background-color: color-mix(in srgb, var(--clr-secondary) 30%, transparent); }
+  .card--celebration__string--primary   { background-color: color-mix(in srgb, var(--clr-primary)   30%, transparent); }
+  .card--celebration__string--tertiary  { background-color: color-mix(in srgb, var(--clr-tertiary)  30%, transparent); }
+
+  .card--celebration__text {
+    width: 100%;
+    text-align: center;
+    margin-top: var(--sp-4);
+  }
+
+  .card--celebration__headline {
+    color: var(--clr-secondary);
+    font-weight: 700;
+    font-size: 1.125rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-widest);
+  }
+
+  .card--celebration__sub {
+    font-size: 0.625rem;
+    color: var(--clr-on-surface-variant);
+    font-family: var(--font-mono);
+  }
+
+  /* ── 5. System log ── */
+  .card--syslog {
+    background-color: var(--clr-surface-low);
+    padding: var(--sp-4);
+    border: 1px dotted color-mix(in srgb, var(--clr-outline-variant) 30%, transparent);
+  }
+
+  .card--syslog__header {
+    font-size: 0.625rem;
+    color: var(--clr-on-surface-variant);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    margin-bottom: var(--sp-4);
+  }
+
+  .card--syslog__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+
+  .card--syslog__item {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+  }
+
+  .card--syslog__dot {
+    display: block;
+    width: 0.5rem;
+    height: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .card--syslog__dot--primary   { background-color: var(--clr-primary);   }
+  .card--syslog__dot--secondary { background-color: var(--clr-secondary); }
+  .card--syslog__dot--tertiary  { background-color: var(--clr-tertiary);  }
+
+  .card--syslog__text {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .card--syslog__text--primary   { color: var(--clr-primary);   }
+  .card--syslog__text--secondary { color: var(--clr-secondary); }
+  .card--syslog__text--tertiary  { color: var(--clr-tertiary);  }
+
+  /* ── 6. Harry Styles ── */
+  .card--harry {
+    background-color: var(--clr-surface-lowest);
+    padding: var(--sp-4);
+    border: 2px dotted color-mix(in srgb, var(--clr-secondary) 20%, transparent);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-3);
+    cursor: crosshair;
+  }
+
+  .card--harry__image-wrap {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--clr-secondary) 10%, transparent);
+  }
+
+  .card--harry__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.9;
+    transition: opacity var(--dur-normal);
+  }
+
+  .card--harry:hover .card--harry__img {
+    opacity: 1;
+  }
+
+  .card--harry__meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card--harry__file-id {
+    font-size: 0.625rem;
+    color: color-mix(in srgb, var(--clr-secondary) 70%, transparent);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .card--harry__name {
+    font-size: 0.75rem;
+    color: var(--clr-on-bg);
+    font-weight: 700;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    margin-top: var(--sp-1);
+  }
+</style>

@@ -1,0 +1,97 @@
+---
+// ASCII art generado con figlet font "banner3-D" — deletrea FELIZ / CUMPLEANOS / CAMI
+const asciiArt = `'########:'########:'##:::::::'####:'########:
+ ##.....:: ##.....:: ##:::::::. ##::..... ##::
+ ##::::::: ##::::::: ##:::::::: ##:::::: ##:::
+ ######::: ######::: ##:::::::: ##::::: ##::::
+ ##...:::: ##...:::: ##:::::::: ##:::: ##:::::
+ ##::::::: ##::::::: ##:::::::: ##::: ##::::::
+ ##::::::: ########: ########:'####: ########:
+..::::::::........::........::....::........::
+:'######::'##::::'##:'##::::'##:'########::'##:::::::'########::::'###::::'##::: ##::'#######:::'######::
+'##... ##: ##:::: ##: ###::'###: ##.... ##: ##::::::: ##.....::::'## ##::: ###:: ##:'##.... ##:'##... ##:
+ ##:::..:: ##:::: ##: ####'####: ##:::: ##: ##::::::: ##::::::::'##:. ##:: ####: ##: ##:::: ##: ##:::..::
+ ##::::::: ##:::: ##: ## ### ##: ########:: ##::::::: ######:::'##:::. ##: ## ## ##: ##:::: ##:. ######::
+ ##::::::: ##:::: ##: ##. #: ##: ##.....::: ##::::::: ##...:::: #########: ##. ####: ##:::: ##::..... ##:
+ ##::: ##: ##:::: ##: ##:.:: ##: ##:::::::: ##::::::: ##::::::: ##.... ##: ##:. ###: ##:::: ##:'##::: ##:
+. ######::. #######:: ##:::: ##: ##:::::::: ########: ########: ##:::: ##: ##::. ##:. #######::. ######::
+:......::::.......:::..:::::..::..:::::::::........::........::..:::::..::..::::..:::.......::::......:::
+:'######:::::'###::::'##::::'##:'####:
+'##... ##:::'## ##::: ###::'###:. ##::
+ ##:::..:::'##:. ##:: ####'####:: ##::
+ ##:::::::'##:::. ##: ## ### ##:: ##::
+ ##::::::: #########: ##. #: ##:: ##::
+ ##::: ##: ##.... ##: ##:.:: ##:: ##::
+. ######:: ##:::: ##: ##:::: ##:'####:
+:......:::..:::::..::..:::::..::....::
+`;
+---
+
+<section class="hero" aria-label="Cabecera de cumpleaños">
+  <div class="hero__ascii ascii-text" aria-label="FELIZ CUMPLEAÑOS">
+    {asciiArt}
+  </div>
+
+  <div class="hero__badges">
+    <span class="badge badge--secondary">STATUS: v18.0 UNLOCKED</span>
+    <span class="badge badge--primary">MEMORY: 2008-2026</span>
+  </div>
+</section>
+
+<style>
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: var(--sp-12);
+    opacity: 0.9;
+    /* permite scroll horizontal en móvil sin romper el layout */
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .hero__ascii {
+    font-size: 0.4rem;
+    line-height: 0.5rem;
+    font-weight: 700;
+    color: var(--clr-primary);
+    text-align: center;
+    /* el bloque de CUMPLEANOS tiene ~105 chars; en pantallas chicas se clipa */
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  @media (min-width: 768px) {
+    .hero__ascii {
+      font-size: 0.6rem;
+      line-height: 0.7rem;
+    }
+  }
+
+  .hero__badges {
+    margin-top: var(--sp-4);
+    display: flex;
+    gap: var(--sp-4);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: var(--sp-1) var(--sp-3);
+    font-weight: 700;
+    letter-spacing: var(--tracking-tight);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
+
+  .badge--secondary {
+    background-color: var(--clr-secondary);
+    color: var(--clr-on-secondary);
+  }
+
+  .badge--primary {
+    background-color: var(--clr-primary);
+    color: var(--clr-on-primary);
+  }
+</style>

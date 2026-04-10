@@ -1,0 +1,77 @@
+:root {
+  /* ── Palette ── */
+  --clr-bg:                   #16032f;
+  --clr-surface-lowest:       #000000;
+  --clr-surface-low:          #1c0638;
+  --clr-surface-mid:          #240b42;
+  --clr-surface-high:         #2b104c;
+  --clr-surface-highest:      #321656;
+  --clr-surface-variant:      #321656;
+  --clr-surface-bright:       #391b60;
+  --clr-nav:                  #1a0633;
+
+  --clr-primary:              #8ff5ff;
+  --clr-primary-dim:          #00deec;
+  --clr-primary-fixed:        #00eefc;
+  --clr-on-primary:           #005d63;
+
+  --clr-secondary:            #ff51fa;
+  --clr-secondary-fixed:      #ffbdf3;
+  --clr-secondary-fixed-dim:  #ffa6f3;
+  --clr-secondary-container:  #a900a9;
+  --clr-on-secondary:         #400040;
+
+  --clr-tertiary:             #f9ffb1;
+  --clr-tertiary-dim:         #e1f032;
+  --clr-tertiary-fixed:       #effe41;
+  --clr-tertiary-container:   #e7f638;
+  --clr-on-tertiary:          #5d6400;
+
+  --clr-error:                #ff6e84;
+  --clr-error-container:      #a70138;
+  --clr-on-error:             #490013;
+
+  --clr-on-bg:                #f0dfff;
+  --clr-on-surface:           #f0dfff;
+  --clr-on-surface-variant:   #b9a1d6;
+  --clr-outline:              #826c9e;
+  --clr-outline-variant:      #523f6d;
+
+  /* ── Typography ── */
+  --font-sans: 'Space Grotesk', sans-serif;
+  --font-mono: monospace;
+
+  /* ── Spacing (4px base) ── */
+  --sp-1:  0.25rem;
+  --sp-2:  0.5rem;
+  --sp-3:  0.75rem;
+  --sp-4:  1rem;
+  --sp-6:  1.5rem;
+  --sp-8:  2rem;
+  --sp-12: 3rem;
+  --sp-16: 4rem;
+  --sp-20: 5rem;
+  --sp-24: 6rem;
+
+  /* ── Z-index ── */
+  --z-bg-decor:  0;
+  --z-dither:    10;
+  --z-scanline:  20;
+  --z-content:   30;
+  --z-fixed:     50;
+
+  /* ── Durations ── */
+  --dur-instant: 75ms;
+  --dur-fast:    150ms;
+  --dur-normal:  300ms;
+
+  /* ── Shadows ── */
+  --shadow-panel:      8px 8px 0px 0px var(--clr-surface-low);
+  --shadow-btn-hover:  4px 4px 0px 0px #005d63;
+
+  /* ── Letter spacing ── */
+  --tracking-wide:    0.05em;
+  --tracking-wider:   0.08em;
+  --tracking-widest:  0.1em;
+  --tracking-tight:   -0.05em;
+}

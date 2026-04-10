@@ -1,0 +1,143 @@
+---
+---
+<article class="terminal" aria-label="Terminal de celebración">
+  <!-- Window chrome -->
+  <header class="terminal__chrome">
+    <div class="terminal__dots" aria-hidden="true">
+      <span class="terminal__dot terminal__dot--red"></span>
+      <span class="terminal__dot terminal__dot--yellow"></span>
+      <span class="terminal__dot terminal__dot--cyan"></span>
+    </div>
+    <span class="terminal__title">root@celebration:~/cami_os</span>
+    <div class="terminal__chrome-spacer" aria-hidden="true"></div>
+  </header>
+
+  <!-- Output -->
+  <div class="terminal__body">
+    <p class="terminal__line terminal__line--muted">
+      Last login: Tue Aug 20 00:00:01 2024 from earth.v3
+    </p>
+    <p class="terminal__line">
+      <span class="terminal__prompt-user">root@celebration:</span><span class="terminal__prompt-symbol">~#</span> sudo init adulthood
+    </p>
+    <p class="terminal__line terminal__line--ok">[ OK ] Starting Adulthood... done.</p>
+    <p class="terminal__line terminal__line--ok">[ OK ] Loading Responsibilities... 1% (FAILED)</p>
+    <p class="terminal__line terminal__line--ok">[ OK ] Unlocking New Skills... done.</p>
+    <p class="terminal__line terminal__line--surface">EST. 2008_MOD_2026</p>
+
+    <p class="terminal__line terminal__line--notice terminal__line--padded">
+      Cami detected. Initiating celebration sequence...
+    </p>
+
+    <div class="terminal__tags">
+      <span class="terminal__tag terminal__tag--primary">PARTY_BIT: 1</span>
+      <span class="terminal__tag terminal__tag--secondary">CAKE_VAL: TRUE</span>
+      <span class="terminal__tag terminal__tag--tertiary">MAGIC_LEVEL: MAX</span>
+    </div>
+
+    <p class="terminal__cursor terminal__line--padded cursor-blink" aria-hidden="true">_</p>
+  </div>
+</article>
+
+<style>
+  .terminal {
+    background-color: var(--clr-surface-low);
+    border: 1px dotted var(--clr-outline-variant);
+    padding: var(--sp-1);
+    box-shadow: var(--shadow-panel);
+  }
+
+  /* ── Chrome (title bar) ── */
+  .terminal__chrome {
+    background-color: var(--clr-surface-highest);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--sp-2) var(--sp-3);
+    border-bottom: 1px solid color-mix(in srgb, var(--clr-outline-variant) 30%, transparent);
+  }
+
+  .terminal__dots {
+    display: flex;
+    gap: var(--sp-2);
+  }
+
+  .terminal__dot {
+    display: block;
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+
+  .terminal__dot--red    { background-color: var(--clr-error); }
+  .terminal__dot--yellow { background-color: var(--clr-tertiary); }
+  .terminal__dot--cyan   { background-color: var(--clr-primary); }
+
+  .terminal__title {
+    font-size: 0.625rem;
+    color: var(--clr-on-surface-variant);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-widest);
+  }
+
+  .terminal__chrome-spacer {
+    width: 3rem;
+  }
+
+  /* ── Body ── */
+  .terminal__body {
+    padding: var(--sp-6);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--clr-primary-dim);
+  }
+
+  .terminal__line {
+    margin-top: var(--sp-2);
+  }
+
+  .terminal__line--muted   { color: var(--clr-on-surface-variant); }
+  .terminal__line--ok      { color: var(--clr-tertiary-fixed); }
+  .terminal__line--surface { color: var(--clr-on-surface); }
+  .terminal__line--notice  { color: var(--clr-secondary-fixed); }
+  .terminal__line--padded  { padding-top: var(--sp-4); }
+
+  .terminal__prompt-user   { color: var(--clr-secondary); }
+  .terminal__prompt-symbol { color: var(--clr-primary); }
+
+  /* ── Inline tags ── */
+  .terminal__tags {
+    margin-top: var(--sp-2);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+  }
+
+  .terminal__tag {
+    padding: 0 var(--sp-2);
+    font-size: 0.875rem;
+  }
+
+  .terminal__tag--primary {
+    background-color: color-mix(in srgb, var(--clr-primary) 20%, transparent);
+    color: var(--clr-primary);
+    border: 1px solid color-mix(in srgb, var(--clr-primary) 40%, transparent);
+  }
+
+  .terminal__tag--secondary {
+    background-color: color-mix(in srgb, var(--clr-secondary) 20%, transparent);
+    color: var(--clr-secondary);
+    border: 1px solid color-mix(in srgb, var(--clr-secondary) 40%, transparent);
+  }
+
+  .terminal__tag--tertiary {
+    background-color: color-mix(in srgb, var(--clr-tertiary) 20%, transparent);
+    color: var(--clr-tertiary);
+    border: 1px solid color-mix(in srgb, var(--clr-tertiary) 40%, transparent);
+  }
+
+  .terminal__cursor {
+    color: var(--clr-primary);
+    cursor: default;
+  }
+</style>

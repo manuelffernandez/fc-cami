@@ -1,0 +1,122 @@
+---
+const cyanStars = [
+  { top: '5%',  left: '12%' }, { top: '15%', left: '45%' },
+  { top: '8%',  left: '88%' }, { top: '25%', left: '2%'  },
+  { top: '35%', left: '75%' }, { top: '42%', left: '18%' },
+  { top: '55%', left: '94%' }, { top: '68%', left: '4%'  },
+  { top: '75%', left: '55%' }, { top: '82%', left: '22%' },
+  { top: '92%', left: '80%' }, { top: '48%', left: '40%' },
+  { top: '12%', left: '65%' }, { top: '60%', left: '82%' },
+  { top: '22%', left: '30%' }, { top: '88%', left: '5%'  },
+  { top: '5%',  left: '50%' }, { top: '30%', left: '95%' },
+  { top: '70%', left: '35%' }, { top: '18%', left: '10%' },
+  { top: '52%', left: '12%' }, { top: '95%', left: '45%' },
+  { top: '40%', left: '60%' }, { top: '78%', left: '90%' },
+];
+
+const yellowStars = [
+  { top: '10%', left: '30%' }, { top: '15%', left: '80%' },
+  { top: '25%', left: '55%' }, { top: '35%', left: '10%' },
+  { top: '45%', left: '90%' }, { top: '50%', left: '25%' },
+  { top: '60%', left: '70%' }, { top: '70%', left: '15%' },
+  { top: '80%', left: '45%' }, { top: '90%', left: '95%' },
+  { top: '5%',  left: '75%' }, { top: '30%', left: '40%' },
+  { top: '65%', left: '5%'  }, { top: '85%', left: '75%' },
+  { top: '18%', left: '20%' },
+];
+
+// theme error color (#ff6e84), opacity 0.5
+const heartsError = [
+  { top: '3%',  left: '25%' }, { top: '12%', left: '78%' },
+  { top: '28%', left: '15%' }, { top: '45%', left: '85%' },
+  { top: '58%', left: '32%' }, { top: '72%', left: '68%' },
+  { top: '85%', left: '10%' }, { top: '90%', left: '55%' },
+  { top: '20%', left: '92%' }, { top: '6%',  left: '60%' },
+  { top: '38%', left: '45%' }, { top: '50%', left: '5%'  },
+  { top: '80%', left: '95%' }, { top: '65%', left: '18%' },
+  { top: '15%', left: '3%'  }, { top: '95%', left: '82%' },
+  { top: '32%', left: '65%' }, { top: '55%', left: '75%' },
+  { top: '42%', left: '22%' },
+];
+
+// pure red (#ff0000), opacity 0.6
+const heartsRed = [
+  { top: '8%',  left: '40%' }, { top: '18%', left: '60%' },
+  { top: '35%', left: '2%'  }, { top: '48%', left: '75%' },
+  { top: '62%', left: '45%' }, { top: '78%', left: '12%' },
+  { top: '88%', left: '85%' }, { top: '22%', left: '88%' },
+  { top: '55%', left: '10%' }, { top: '12%', left: '15%' },
+  { top: '42%', left: '55%' }, { top: '70%', left: '92%' },
+  { top: '94%', left: '28%' }, { top: '3%',  left: '95%' },
+  { top: '28%', left: '70%' },
+];
+---
+
+<!-- Screen effect overlays (fixed, above bg, below content) -->
+<div class="overlay dither-overlay" aria-hidden="true"></div>
+<div class="overlay crt-scanline"   aria-hidden="true"></div>
+
+<!-- Scattered decorative elements -->
+<div class="bg-decor" aria-hidden="true">
+  {cyanStars.map(s => (
+    <div
+      class="pixel-star"
+      style={`position:absolute;top:${s.top};left:${s.left}`}
+    ></div>
+  ))}
+
+  {yellowStars.map(s => (
+    <div
+      class="pixel-star pixel-star--yellow"
+      style={`position:absolute;top:${s.top};left:${s.left}`}
+    ></div>
+  ))}
+
+  {heartsError.map(h => (
+    <span
+      class="heart heart--error"
+      style={`position:absolute;top:${h.top};left:${h.left}`}
+    >&lt;3</span>
+  ))}
+
+  {heartsRed.map(h => (
+    <span
+      class="heart heart--red"
+      style={`position:absolute;top:${h.top};left:${h.left}`}
+    >&lt;3</span>
+  ))}
+</div>
+
+<style>
+  .overlay {
+    position: fixed;
+    inset: 0;
+  }
+
+  .overlay.dither-overlay { z-index: var(--z-dither); }
+  .overlay.crt-scanline   { z-index: var(--z-scanline); }
+
+  .bg-decor {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-bg-decor);
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0.4;
+  }
+
+  .heart {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  .heart--error {
+    color: var(--clr-error);
+    opacity: 0.5;
+  }
+
+  .heart--red {
+    color: #ff0000;
+    opacity: 0.6;
+  }
+</style>

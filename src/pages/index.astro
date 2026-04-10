@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BackgroundDecor from '../components/BackgroundDecor.astro';
+import NavBar from '../components/NavBar.astro';
+import HeroAscii from '../components/HeroAscii.astro';
+import TerminalPanel from '../components/TerminalPanel.astro';
+import SidePanel from '../components/SidePanel.astro';
+import BentoGrid from '../components/BentoGrid.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout>
+  <BackgroundDecor />
+  <NavBar />
+
+  <main class="page-main">
+    <HeroAscii />
+
+    <div class="content-grid">
+      <div class="content-grid__terminal">
+        <TerminalPanel />
+      </div>
+      <div class="content-grid__side">
+        <SidePanel />
+      </div>
+    </div>
+
+    <BentoGrid />
+
+    <footer class="editorial-meta" aria-hidden="true">
+      <span>// DESIGN_TYPE: RETRO_PIXEL_ART</span>
+      <span>// BUILD_ID: 18_CAMI_2026</span>
+      <span>// AUTH: TERMINAL_OS</span>
+    </footer>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .page-main {
+    position: relative;
+    padding-top: var(--sp-24);
+    padding-bottom: var(--sp-16);
+    padding-left: var(--sp-4);
+    padding-right: var(--sp-4);
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: var(--z-content);
+  }
+
+  @media (min-width: 768px) {
+    .page-main {
+      padding-left: var(--sp-12);
+      padding-right: var(--sp-12);
+    }
+  }
+
+  /* 12-column responsive grid for terminal + side panel */
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
+    align-items: start;
+  }
+
+  @media (min-width: 1024px) {
+    .content-grid {
+      grid-template-columns: repeat(12, 1fr);
+    }
+
+    .content-grid__terminal {
+      grid-column: span 8;
+    }
+
+    .content-grid__side {
+      grid-column: span 4;
+    }
+  }
+
+  /* Bottom micro-copy metadata */
+  .editorial-meta {
+    margin-top: var(--sp-20);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--sp-2);
+    font-size: 0.625rem;
+    font-family: var(--font-mono);
+    color: color-mix(in srgb, var(--clr-on-surface-variant) 40%, transparent);
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+  }
+</style>

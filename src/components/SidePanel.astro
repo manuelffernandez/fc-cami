@@ -1,0 +1,171 @@
+---
+---
+<aside class="side-panel">
+  <!-- CARTA.TXT card -->
+  <div class="carta-card">
+    <span class="carta-card__id" aria-hidden="true">PIXEL_ID: H_STYLES_01</span>
+
+    <div class="carta-card__header">
+      <!-- Pixel art avatar placeholder -->
+      <div class="carta-card__avatar" aria-hidden="true">
+        <div class="pixel-art-grid">
+          <div class="pixel-art-grid__hair"></div>
+          <div class="pixel-art-grid__face"></div>
+          <div class="pixel-art-grid__body"></div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="carta-card__title">CARTA.TXT</h3>
+        <p class="carta-card__status">Status: UNREAD</p>
+      </div>
+    </div>
+
+    <div class="carta-card__content">
+      <span class="carta-card__meta">// SENDER: MANOLO</span><br />
+      <span class="carta-card__meta">// CONTENT: FELIZ CUMPLEAÑOS CAMILIN, QUE SE CUMPLAN</span><br />
+      <span class="carta-card__meta">// TODOS TUS DESEOS HOY Y SIEMPRE &lt;3</span><br />
+      <span class="carta-card__meta">// RECEIVER: CAMILU</span>
+    </div>
+  </div>
+
+  <!-- v18.0 badge -->
+  <div class="version-badge">
+    <div class="version-badge__left">
+      <span class="material-symbols-outlined version-badge__icon" aria-hidden="true">auto_awesome</span>
+      <span class="version-badge__label">v18.0 UNLOCKED</span>
+    </div>
+    <span class="version-badge__code">CODE: CAMI18</span>
+  </div>
+</aside>
+
+<style>
+  .side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-6);
+  }
+
+  /* ── CARTA card ── */
+  .carta-card {
+    position: relative;
+    background-color: var(--clr-surface-high);
+    padding: var(--sp-6);
+    border: 1px dotted color-mix(in srgb, var(--clr-secondary) 50%, transparent);
+    overflow: hidden;
+  }
+
+  .carta-card__id {
+    position: absolute;
+    top: var(--sp-2);
+    right: var(--sp-2);
+    font-size: 0.625rem;
+    color: color-mix(in srgb, var(--clr-secondary) 40%, transparent);
+    font-family: var(--font-mono);
+  }
+
+  .carta-card__header {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+  }
+
+  .carta-card__avatar {
+    width: 5rem;
+    height: 5rem;
+    background-color: var(--clr-surface-lowest);
+    border: 2px solid var(--clr-secondary);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* Minimal pixel-art figure using CSS grid */
+  .pixel-art-grid {
+    display: grid;
+    grid-template-rows: 2fr 4fr 2fr;
+    width: 4rem;
+    height: 4rem;
+    opacity: 0.8;
+  }
+
+  .pixel-art-grid__hair {
+    background-color: var(--clr-secondary);
+    grid-row: 1;
+  }
+
+  .pixel-art-grid__face {
+    background-color: var(--clr-tertiary-fixed);
+    grid-row: 2;
+    margin: 0 0.5rem;
+  }
+
+  .pixel-art-grid__body {
+    background-color: var(--clr-on-bg);
+    grid-row: 3;
+  }
+
+  .carta-card__title {
+    color: var(--clr-primary);
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 1.2;
+    letter-spacing: var(--tracking-tight);
+    text-transform: uppercase;
+  }
+
+  .carta-card__status {
+    font-size: 0.75rem;
+    color: var(--clr-on-surface-variant);
+    text-transform: uppercase;
+    margin-top: var(--sp-1);
+  }
+
+  .carta-card__content {
+    margin-top: var(--sp-4);
+    font-size: 0.625rem;
+    color: var(--clr-on-surface-variant);
+    font-family: var(--font-mono);
+    line-height: 1.6;
+  }
+
+  .carta-card__meta {
+    display: inline;
+  }
+
+  /* ── Version badge ── */
+  .version-badge {
+    background-color: color-mix(in srgb, var(--clr-primary-fixed) 10%, transparent);
+    padding: var(--sp-4);
+    border: 1px solid color-mix(in srgb, var(--clr-primary) 30%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .version-badge__left {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+  }
+
+  .version-badge__icon {
+    color: var(--clr-primary);
+  }
+
+  .version-badge__label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-widest);
+    color: var(--clr-primary);
+  }
+
+  .version-badge__code {
+    font-size: 0.625rem;
+    color: color-mix(in srgb, var(--clr-primary) 60%, transparent);
+    font-family: var(--font-mono);
+  }
+</style>

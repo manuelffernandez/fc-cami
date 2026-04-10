@@ -1,0 +1,127 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--clr-bg);
+  color: var(--clr-on-bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--clr-primary);
+  color: var(--clr-on-primary);
+}
+
+/* ── Screen effect overlays ── */
+.dither-overlay {
+  background-image: radial-gradient(#8ff5ff 0.5px, transparent 0.5px);
+  background-size: 4px 4px;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.crt-scanline {
+  background:
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+    linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.03),
+      rgba(0, 255, 0, 0.01),
+      rgba(0, 0, 255, 0.03)
+    );
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+/* ── Pixel art ── */
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* ── Pixel star (cross-shape 3px) ── */
+.pixel-star {
+  width: 3px;
+  height: 3px;
+  background: var(--clr-tertiary-fixed);
+  box-shadow:
+    0 -3px 0 var(--clr-tertiary-fixed),
+    0  3px 0 var(--clr-tertiary-fixed),
+    -3px 0 0 var(--clr-tertiary-fixed),
+    3px  0 0 var(--clr-tertiary-fixed);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.pixel-star--yellow {
+  background: #ffff00;
+  box-shadow:
+    0 -3px 0 #ffff00,
+    0  3px 0 #ffff00,
+    -3px 0 0 #ffff00,
+    3px  0 0 #ffff00;
+}
+
+.pixel-star--primary {
+  background: var(--clr-primary);
+  box-shadow:
+    0 -3px 0 var(--clr-primary),
+    0  3px 0 var(--clr-primary),
+    -3px 0 0 var(--clr-primary),
+    3px  0 0 var(--clr-primary);
+}
+
+.pixel-star--secondary {
+  background: var(--clr-secondary);
+  box-shadow:
+    0 -3px 0 var(--clr-secondary),
+    0  3px 0 var(--clr-secondary),
+    -3px 0 0 var(--clr-secondary),
+    3px  0 0 var(--clr-secondary);
+}
+
+.pixel-star--tertiary {
+  background: var(--clr-tertiary);
+  box-shadow:
+    0 -3px 0 var(--clr-tertiary),
+    0  3px 0 var(--clr-tertiary),
+    -3px 0 0 var(--clr-tertiary),
+    3px  0 0 var(--clr-tertiary);
+}
+
+/* ── ASCII preformatted block ── */
+.ascii-text {
+  font-family: var(--font-mono);
+  white-space: pre;
+  line-height: 1;
+}
+
+/* ── Pixel border utility ── */
+.pixel-border {
+  box-shadow:
+     4px 0 0 -2px var(--clr-secondary),
+    -4px 0 0 -2px var(--clr-secondary),
+    0  4px 0 -2px var(--clr-secondary),
+    0 -4px 0 -2px var(--clr-secondary);
+}
+
+/* ── Cursor blink ── */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: cursor-blink 1.2s step-end infinite;
+}
+
+/* ── Material Symbols baseline ── */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  user-select: none;
+}
