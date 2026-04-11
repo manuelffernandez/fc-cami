@@ -3,7 +3,9 @@ const confettiPieces = Array.from({ length: 18 }, (_, index) => {
   const horizontal = (index - 8.5) * 22;
   const vertical = -150 - (index % 4) * 24;
   const delay = index * 35;
-  const color = ['#ff77e9', '#8ff5ff', '#ffd166', '#c6ff7d', '#ffffff'][index % 5];
+  const color = ["#ff77e9", "#8ff5ff", "#ffd166", "#c6ff7d", "#ffffff"][
+    index % 5
+  ];
   const size = `${4 + (index % 3) * 2}px`;
 
   return {
@@ -11,11 +13,12 @@ const confettiPieces = Array.from({ length: 18 }, (_, index) => {
   };
 });
 ---
+
 <footer class="footer">
   <p class="footer__copy">(C) 2026 TERMINAL_OS // BIRTHDAY_MODE.INIT</p>
 
   <nav class="footer__links" aria-label="Footer links">
-    <button type="button" class="footer__action" data-help-trigger>HELP</button>
+    <button type="button" class="footer__action" data-help-trigger>GIFT</button>
     <button type="button" class="footer__action">SHUTDOWN</button>
   </nav>
 </footer>
@@ -43,7 +46,7 @@ const confettiPieces = Array.from({ length: 18 }, (_, index) => {
       <div class="gift-help__confetti" aria-hidden="true">
         {
           confettiPieces.map((piece) => (
-            <span class="gift-help__confetti-piece" style={piece.style}></span>
+            <span class="gift-help__confetti-piece" style={piece.style} />
           ))
         }
       </div>
@@ -81,7 +84,8 @@ const confettiPieces = Array.from({ length: 18 }, (_, index) => {
     width: 100%;
     margin-top: auto;
     background-color: var(--clr-nav);
-    border-top: 1px dotted color-mix(in srgb, var(--clr-secondary) 30%, transparent);
+    border-top: 1px dotted
+      color-mix(in srgb, var(--clr-secondary) 30%, transparent);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -162,7 +166,11 @@ const confettiPieces = Array.from({ length: 18 }, (_, index) => {
     width: min(92vw, 34rem);
     padding: var(--sp-8) var(--sp-6) var(--sp-6);
     background:
-      radial-gradient(circle at top, color-mix(in srgb, var(--clr-secondary) 14%, transparent), transparent 50%),
+      radial-gradient(
+        circle at top,
+        color-mix(in srgb, var(--clr-secondary) 14%, transparent),
+        transparent 50%
+      ),
       linear-gradient(180deg, var(--clr-surface-highest), var(--clr-nav));
     border: 1px solid color-mix(in srgb, var(--clr-primary) 24%, transparent);
     box-shadow:
@@ -173,10 +181,14 @@ const confettiPieces = Array.from({ length: 18 }, (_, index) => {
   }
 
   .gift-help__dialog::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 30%);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.04),
+      transparent 30%
+    );
     pointer-events: none;
   }
 
@@ -368,12 +380,17 @@ const confettiPieces = Array.from({ length: 18 }, (_, index) => {
 
     55% {
       opacity: 1;
-      transform: translate(calc(-50% + (var(--confetti-x) * 0.72)), calc(var(--confetti-y) * 0.78)) scale(1);
+      transform: translate(
+          calc(-50% + (var(--confetti-x) * 0.72)),
+          calc(var(--confetti-y) * 0.78)
+        )
+        scale(1);
     }
 
     100% {
       opacity: 0;
-      transform: translate(calc(-50% + var(--confetti-x)), var(--confetti-y)) scale(1);
+      transform: translate(calc(-50% + var(--confetti-x)), var(--confetti-y))
+        scale(1);
     }
   }
 
@@ -413,17 +430,19 @@ const confettiPieces = Array.from({ length: 18 }, (_, index) => {
       transform: none;
     }
   }
-
 </style>
 
 <script>
-  const helpTrigger = document.querySelector('[data-help-trigger]');
-  const helpModal = document.querySelector('[data-help-modal]');
-  const helpOverlay = document.querySelector('[data-help-overlay]');
-  const helpClose = document.querySelector('[data-help-close]');
-  const helpDialog = helpModal?.querySelector('.gift-help__dialog');
+  const helpTrigger = document.querySelector("[data-help-trigger]");
+  const helpModal = document.querySelector("[data-help-modal]");
+  const helpOverlay = document.querySelector("[data-help-overlay]");
+  const helpClose = document.querySelector("[data-help-close]");
+  const helpDialog = helpModal?.querySelector(".gift-help__dialog");
 
-  if (helpTrigger instanceof HTMLButtonElement && helpModal instanceof HTMLDivElement) {
+  if (
+    helpTrigger instanceof HTMLButtonElement &&
+    helpModal instanceof HTMLDivElement
+  ) {
     let revealTimer;
     let hideTimer;
 
@@ -443,24 +462,24 @@ const confettiPieces = Array.from({ length: 18 }, (_, index) => {
     const openHelp = () => {
       clearTimers();
       helpModal.hidden = false;
-      helpModal.classList.remove('is-shaking', 'is-revealed');
-      document.body.classList.add('gift-help-open');
+      helpModal.classList.remove("is-shaking", "is-revealed");
+      document.body.classList.add("gift-help-open");
 
       window.requestAnimationFrame(() => {
-        helpModal.classList.add('is-visible');
+        helpModal.classList.add("is-visible");
 
         if (helpDialog instanceof HTMLElement) {
           helpDialog.focus();
         }
 
         window.requestAnimationFrame(() => {
-          helpModal.classList.add('is-shaking');
+          helpModal.classList.add("is-shaking");
         });
       });
 
       revealTimer = window.setTimeout(() => {
-        helpModal.classList.remove('is-shaking');
-        helpModal.classList.add('is-revealed');
+        helpModal.classList.remove("is-shaking");
+        helpModal.classList.add("is-revealed");
       }, 900);
     };
 
@@ -470,8 +489,8 @@ const confettiPieces = Array.from({ length: 18 }, (_, index) => {
       }
 
       clearTimers();
-      helpModal.classList.remove('is-shaking', 'is-revealed', 'is-visible');
-      document.body.classList.remove('gift-help-open');
+      helpModal.classList.remove("is-shaking", "is-revealed", "is-visible");
+      document.body.classList.remove("gift-help-open");
 
       hideTimer = window.setTimeout(() => {
         helpModal.hidden = true;
@@ -479,12 +498,12 @@ const confettiPieces = Array.from({ length: 18 }, (_, index) => {
       }, 220);
     };
 
-    helpTrigger.addEventListener('click', openHelp);
-    helpOverlay?.addEventListener('click', closeHelp);
-    helpClose?.addEventListener('click', closeHelp);
+    helpTrigger.addEventListener("click", openHelp);
+    helpOverlay?.addEventListener("click", closeHelp);
+    helpClose?.addEventListener("click", closeHelp);
 
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && !helpModal.hidden) {
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !helpModal.hidden) {
         closeHelp();
       }
     });
