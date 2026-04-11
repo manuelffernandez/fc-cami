@@ -69,13 +69,14 @@ const setupFooterGiftHelp = () => {
 
     hideTimer = window.setTimeout(() => {
       helpModal.hidden = true;
-      helpTrigger.focus();
+      helpTrigger.focus({ preventScroll: true });
     }, 220);
   };
 
   helpTrigger.addEventListener("click", openHelp);
   helpOverlay?.addEventListener("click", closeHelp);
   helpClose?.addEventListener("click", closeHelp);
+  document.addEventListener("gift:open-request", openHelp);
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !helpModal.hidden) {

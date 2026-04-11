@@ -63,6 +63,26 @@ import "./terminal-panel/styles.css";
   </div>
 </article>
 
+<style is:global>
+  @keyframes confetti-particle {
+    0% {
+      transform: translate(0, 0) scale(1) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--cx), var(--cy)) scale(0) rotate(var(--cr));
+      opacity: 0;
+    }
+  }
+
+  .confetti-particle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    animation: confetti-particle 2.4s ease-out forwards;
+  }
+</style>
+
 <script>
   import setupTerminalPanel from "./terminal-panel/client";
 

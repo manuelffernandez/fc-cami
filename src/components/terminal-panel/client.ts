@@ -51,8 +51,72 @@ const allowedInputTypes = new Set([
   "deleteContentForward",
 ]);
 
+const CONFETTI_COLORS = ["#ff77e9", "#8ff5ff", "#ffd166", "#c6ff7d", "#ffffff"];
+
+const spawnConfetti = () => {
+  const count = 90;
+  const originX = window.innerWidth / 2;
+  const originY = window.innerHeight * 0.42;
+
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement("div");
+    el.className = "confetti-particle";
+
+    const size = Math.random() * 12 + 6;
+    const angle = Math.random() * Math.PI * 2;
+    const dist = Math.random() * 420 + 120;
+    const cx = Math.cos(angle) * dist;
+    const cy = Math.sin(angle) * dist - 140;
+    const cr = Math.random() * 720 - 360;
+    const delay = Math.floor(Math.random() * 280);
+
+    el.style.cssText = [
+      `left:${originX + (Math.random() - 0.5) * 100}px`,
+      `top:${originY}px`,
+      `width:${size}px`,
+      `height:${size}px`,
+      `background:${CONFETTI_COLORS[i % CONFETTI_COLORS.length]}`,
+      `--cx:${cx}px`,
+      `--cy:${cy}px`,
+      `--cr:${cr}deg`,
+      `animation-delay:${delay}ms`,
+    ].join(";");
+
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 2800 + delay);
+  }
+};
+
 const availableCommands: Record<string, () => TerminalCommandResult> = {
+  help: () => ({
+    clearHistory: false,
+    outputs: [
+      { tone: "notice", value: "AVAILABLE COMMANDS" },
+      { tone: "muted", value: "──────────────────────────────────" },
+      { tone: "surface", value: "  help       — list available commands" },
+      { tone: "surface", value: "  clear      — clear terminal history" },
+      { tone: "surface", value: "  gift       — open birthday gift" },
+      { tone: "surface", value: "  confetti   — spawn confetti burst" },
+    ],
+  }),
+
   clear: () => ({ clearHistory: true, outputs: [] }),
+
+  gift: () => {
+    document.dispatchEvent(new CustomEvent("gift:open-request"));
+    return {
+      clearHistory: false,
+      outputs: [{ tone: "ok", value: "GIFT.EXE — executing..." }],
+    };
+  },
+
+  confetti: () => {
+    spawnConfetti();
+    return {
+      clearHistory: false,
+      outputs: [{ tone: "ok", value: "CONFETTI_BURST: deployed" }],
+    };
+  },
 };
 
 const createPromptFragment = () => {
@@ -111,6 +175,10 @@ const executeCommand = (rawCommand: string): TerminalCommandResult => {
         {
           tone: "error",
           value: `bash: ${commandName}: command not found`,
+        },
+        {
+          tone: "muted",
+          value: `Type "help" to see available commands.`,
         },
       ],
     };
