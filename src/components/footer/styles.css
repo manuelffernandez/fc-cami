@@ -8,7 +8,6 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--sp-2) var(--sp-4);
-  cursor: crosshair;
 }
 
 .footer__copy {
@@ -35,7 +34,7 @@
   background: transparent;
   border: 0;
   padding: 0;
-  cursor: crosshair;
+  cursor: pointer;
 }
 
 .footer__action:hover {
@@ -117,7 +116,7 @@
   background: transparent;
   color: color-mix(in srgb, var(--clr-on-bg) 72%, transparent);
   font-size: 1.25rem;
-  cursor: crosshair;
+  cursor: pointer;
   z-index: 2;
 }
 
