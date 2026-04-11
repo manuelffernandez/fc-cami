@@ -20,8 +20,10 @@ const confettiPieces = Array.from({ length: 18 }, (_, index) => {
   <p class="footer__copy">(C) 2026 TERMINAL_OS // BIRTHDAY_MODE.INIT</p>
 
   <nav class="footer__links" aria-label="Footer links">
-    <button type="button" class="footer__action" data-help-trigger>GIFT</button>
-    <button type="button" class="footer__action">SHUTDOWN</button>
+    <button type="button" class="footer__action" data-gift-trigger>GIFT</button>
+    <button type="button" class="footer__action" data-shutdown-trigger
+      >SHUTDOWN</button
+    >
   </nav>
 </footer>
 
@@ -81,8 +83,50 @@ const confettiPieces = Array.from({ length: 18 }, (_, index) => {
   </section>
 </div>
 
+<div class="shutdown-modal" data-shutdown-modal hidden>
+  <div class="shutdown-modal__backdrop" data-shutdown-overlay></div>
+
+  <section
+    class="shutdown-modal__dialog pixel-border"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="shutdown-title"
+    tabindex="-1"
+  >
+    <button
+      type="button"
+      class="shutdown-modal__close"
+      data-shutdown-close
+      aria-label="Cerrar animación de apagado"
+    >
+      ×
+    </button>
+
+    <div class="shutdown-modal__stage">
+      <div class="shutdown-modal__frames" aria-hidden="true">
+        {
+          Array.from({ length: 6 }, (_, i) => (
+            <img
+              src={`/images/footer/cake/frame_${i + 1}.png`}
+              alt=""
+              class="shutdown-modal__frame pixelated"
+              data-shutdown-frame
+            />
+          ))
+        }
+      </div>
+
+      <div class="shutdown-modal__message" data-shutdown-message>
+        <p class="shutdown-modal__eyebrow">BIRTHDAY_SEQUENCE: COMPLETE</p>
+        <h2 id="shutdown-title">VELITA SOPLADA</h2>
+      </div>
+    </div>
+  </section>
+</div>
+
 <script>
-  import setupFooterGiftHelp from "./footer/client";
+  import setupFooterGiftHelp, { setupShutdown } from "./footer/client";
 
   setupFooterGiftHelp();
+  setupShutdown();
 </script>

@@ -97,6 +97,7 @@ const availableCommands: Record<string, () => TerminalCommandResult> = {
       { tone: "surface", value: "  clear      — clear terminal history" },
       { tone: "surface", value: "  gift       — open birthday gift" },
       { tone: "surface", value: "  confetti   — spawn confetti burst" },
+      { tone: "surface", value: "  shutdown   — blow out the candles" },
     ],
   }),
 
@@ -115,6 +116,14 @@ const availableCommands: Record<string, () => TerminalCommandResult> = {
     return {
       clearHistory: false,
       outputs: [{ tone: "ok", value: "CONFETTI_BURST: deployed" }],
+    };
+  },
+
+  shutdown: () => {
+    document.dispatchEvent(new CustomEvent("shutdown:open-request"));
+    return {
+      clearHistory: false,
+      outputs: [{ tone: "ok", value: "SHUTDOWN.EXE — executing..." }],
     };
   },
 };
