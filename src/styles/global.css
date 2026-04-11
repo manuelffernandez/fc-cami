@@ -5,6 +5,8 @@
 }
 
 body {
+  display: flex;
+  flex-direction: column;
   font-family: var(--font-sans);
   background-color: var(--clr-bg);
   color: var(--clr-on-bg);
