@@ -335,6 +335,19 @@ const playHarrypAnimation = () => {
 };
 
 // ── snitch ────────────────────────────────────────────────────────
+const preloadImages = (srcs: string[]): Promise<void> =>
+  Promise.all(
+    srcs.map(
+      (src) =>
+        new Promise<void>((resolve) => {
+          const img = new Image();
+          img.onload = () => resolve();
+          img.onerror = () => resolve();
+          img.src = src;
+        }),
+    ),
+  ).then(() => undefined);
+
 const playSnitchAnimation = () => {
   if (document.activeElement instanceof HTMLElement) {
     document.activeElement.blur();
@@ -346,10 +359,9 @@ const playSnitchAnimation = () => {
     "/images/snitch_3.png",
     "/images/snitch_2.png",
   ];
-  const FRAME_MS = 100; // ping-pong: 1→2→3→2→1→2...
+  const FRAME_MS = 100;
   const TOTAL_MS = 2800;
 
-  // Erratic waypoints: [x%, y%] of viewport
   const waypoints = [
     [-8, 45],
     [15, 20],
@@ -360,45 +372,45 @@ const playSnitchAnimation = () => {
     [108, 48],
   ];
 
-  const snitch = document.createElement("div");
-  snitch.className = "snitch";
-  document.body.appendChild(snitch);
+  preloadImages(FRAMES).then(() => {
+    const snitch = document.createElement("div");
+    snitch.className = "snitch";
+    document.body.appendChild(snitch);
 
-  const img = document.createElement("img");
-  img.className = "snitch-img";
-  img.src = FRAMES[0];
-  img.alt = "";
-  snitch.appendChild(img);
+    const img = document.createElement("img");
+    img.className = "snitch-img";
+    img.src = FRAMES[0];
+    img.alt = "";
+    snitch.appendChild(img);
 
-  // Frame animation (ping-pong)
-  let frameIdx = 0;
-  const frameTimer = window.setInterval(() => {
-    frameIdx = (frameIdx + 1) % FRAMES.length;
-    img.src = FRAMES[frameIdx];
-  }, FRAME_MS);
+    let frameIdx = 0;
+    const frameTimer = window.setInterval(() => {
+      frameIdx = (frameIdx + 1) % FRAMES.length;
+      img.src = FRAMES[frameIdx];
+    }, FRAME_MS);
 
-  // Build CSS keyframes string dynamically from waypoints
-  const steps = waypoints.length - 1;
-  const keyframeRules = waypoints
-    .map(([x, y], i) => {
-      const pct = Math.round((i / steps) * 100);
-      const flip = x > 50 ? "scaleX(-1)" : "scaleX(1)";
-      return `${pct}% { left:${x}vw; top:${y}vh; transform:${flip}; }`;
-    })
-    .join(" ");
+    const steps = waypoints.length - 1;
+    const keyframeRules = waypoints
+      .map(([x, y], i) => {
+        const pct = Math.round((i / steps) * 100);
+        const flip = x > 50 ? "scaleX(-1)" : "scaleX(1)";
+        return `${pct}% { left:${x}vw; top:${y}vh; transform:${flip}; }`;
+      })
+      .join(" ");
 
-  const styleEl = document.createElement("style");
-  styleEl.textContent = `@keyframes snitch-erratic { ${keyframeRules} }`;
-  document.head.appendChild(styleEl);
+    const styleEl = document.createElement("style");
+    styleEl.textContent = `@keyframes snitch-erratic { ${keyframeRules} }`;
+    document.head.appendChild(styleEl);
 
-  snitch.style.animationName = "snitch-erratic";
-  snitch.style.animationDuration = `${TOTAL_MS}ms`;
+    snitch.style.animationName = "snitch-erratic";
+    snitch.style.animationDuration = `${TOTAL_MS}ms`;
 
-  setTimeout(() => {
-    clearInterval(frameTimer);
-    snitch.remove();
-    styleEl.remove();
-  }, TOTAL_MS + 200);
+    setTimeout(() => {
+      clearInterval(frameTimer);
+      snitch.remove();
+      styleEl.remove();
+    }, TOTAL_MS + 200);
+  });
 };
 
 // ── tattoo ────────────────────────────────────────────────────────
@@ -452,9 +464,12 @@ const playTattooAnimation = () => {
       `top:${y * PIXEL}px`,
       `width:${PIXEL}px`,
       `height:${PIXEL}px`,
-      `animation-delay:${Math.round(300 + i * delayPerPixel)}ms`,
     ].join(";");
     container.appendChild(px);
+
+    setTimeout(() => {
+      px.style.opacity = "1";
+    }, Math.round(300 + i * delayPerPixel));
   });
 
   setTimeout(() => {
@@ -463,6 +478,20 @@ const playTattooAnimation = () => {
   }, 3000);
 
   setTimeout(() => {
+    const pixels = container.querySelectorAll<HTMLElement>(".tattoo-pixel");
+
+    pixels.forEach((px) => {
+      px.style.animation = "none";
+      px.style.opacity = "1";
+    });
+
+    void container.offsetHeight;
+
+    pixels.forEach((px) => {
+      px.style.transition = "opacity 0.4s steps(5)";
+      px.style.opacity = "0";
+    });
+
     overlay.classList.add("secret-overlay--fade-out");
     setTimeout(() => overlay.remove(), 600);
   }, 4100);
