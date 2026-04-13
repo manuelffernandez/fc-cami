@@ -18,6 +18,8 @@ type TerminalCommandResult = {
   outputs: Array<Omit<TerminalOutputEntry, "type">>;
 };
 
+let secretsUnlocked = false;
+
 const promptUserLabel = "root@celebration:";
 const promptSymbolLabel = "~#";
 
@@ -177,7 +179,11 @@ const generateHeartPath = (scale: number, grid: number): [number, number][] => {
     const t = (i / 500) * 2 * Math.PI;
     const x = snap(scale * 16 * Math.pow(Math.sin(t), 3));
     const y = snap(
-      -scale * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t)),
+      -scale *
+        (13 * Math.cos(t) -
+          5 * Math.cos(2 * t) -
+          2 * Math.cos(3 * t) -
+          Math.cos(4 * t)),
     );
     const last = path[path.length - 1];
     if (!last || last[0] !== x || last[1] !== y) {
@@ -275,6 +281,52 @@ const playHarrypAnimation = () => {
   spell.className = "harryp-spell";
   spell.textContent = "Expecto Patronum";
   overlay.appendChild(spell);
+
+  // Flash + particle burst coordinated at spell cast moment
+  setTimeout(() => {
+    const flash = document.createElement("div");
+    flash.className = "harryp-flash";
+    document.body.appendChild(flash);
+    setTimeout(() => flash.remove(), 700);
+
+    const BLUES = [
+      "#a8d8ff",
+      "#60b8ff",
+      "#1e90ff",
+      "#4da6ff",
+      "#c8e8ff",
+      "#7ecbff",
+      "#ffffff",
+      "#b0d0ff",
+    ];
+    const count = 80;
+    const ox = window.innerWidth / 2;
+    const oy = window.innerHeight / 2;
+
+    for (let i = 0; i < count; i++) {
+      const px = document.createElement("div");
+      px.className = "harryp-particle";
+
+      const size = (2 + Math.floor(Math.random() * 3)) * 4;
+      const angle = (i / count) * Math.PI * 2 + (Math.random() - 0.5) * 0.5;
+      const dist = 80 + Math.random() * 320;
+      const delay = Math.floor(Math.random() * 250);
+
+      px.style.cssText = [
+        `left:${ox + (Math.random() - 0.5) * 60}px`,
+        `top:${oy + (Math.random() - 0.5) * 60}px`,
+        `width:${size}px`,
+        `height:${size}px`,
+        `background:${BLUES[i % BLUES.length]}`,
+        `--cx:${Math.cos(angle) * dist}px`,
+        `--cy:${Math.sin(angle) * dist}px`,
+        `animation-delay:${delay}ms`,
+      ].join(";");
+
+      document.body.appendChild(px);
+      setTimeout(() => px.remove(), 1100 + delay);
+    }
+  }, 1300);
 
   setTimeout(() => {
     overlay.classList.add("secret-overlay--fade-out");
@@ -499,8 +551,28 @@ const availableCommands: Record<string, () => TerminalCommandResult> = {
       { tone: "surface", value: "  confetti   — spawn confetti burst" },
       { tone: "surface", value: "  shutdown   — blow out the candles" },
       { tone: "muted", value: "──────────────────────────────────" },
-      { tone: "muted", value: "  ? some commands are hidden..." },
-      { tone: "muted", value: "  try to find them." },
+      ...(secretsUnlocked
+        ? ([
+            { tone: "notice", value: "SECRET COMMANDS" },
+            { tone: "muted", value: "──────────────────────────────────" },
+            {
+              tone: "surface",
+              value:
+                "  secret     — ✦ Buenos dias estrellitas, la tierra les dice holaaa",
+            },
+            { tone: "surface", value: "  styles     — que" },
+            { tone: "surface", value: "  tomlinson  — trolos" },
+            { tone: "surface", value: "  stylinson  — son" },
+            { tone: "surface", value: "  potter     — miedo, dementores" },
+            { tone: "surface", value: "  snitch     — asjdhñaskjdgjas" },
+            { tone: "surface", value: "  tattoo     — 18. forever." },
+            { tone: "surface", value: "  golden     — ♪ you're so golden" },
+            { tone: "muted", value: "──────────────────────────────────" },
+          ] as Array<Omit<TerminalOutputEntry, "type">>)
+        : ([
+            { tone: "muted", value: "  ✦ Unlock the secret commands." },
+            { tone: "muted", value: "  Find the red button." },
+          ] as Array<Omit<TerminalOutputEntry, "type">>)),
     ],
   }),
 
@@ -900,12 +972,55 @@ const syncTerminalInput = (terminal: Element) => {
   syncComposer({ forceScroll: true });
 };
 
+const showUnlockModal = () => {
+  secretsUnlocked = true;
+
+  const modal = document.createElement("div");
+  modal.className = "unlock-modal";
+
+  const box = document.createElement("div");
+  box.className = "unlock-modal__box";
+
+  const title = document.createElement("p");
+  title.className = "unlock-modal__title";
+  title.textContent = "// SECRET COMMANDS UNLOCKED";
+
+  const msg = document.createElement("p");
+  msg.className = "unlock-modal__msg";
+  msg.textContent = 'Type "help" to see them.';
+
+  const btn = document.createElement("button");
+  btn.className = "unlock-modal__btn";
+  btn.textContent = "[ OK ]";
+  btn.addEventListener("click", () => {
+    modal.classList.add("unlock-modal--out");
+    setTimeout(() => modal.remove(), 400);
+  });
+
+  box.append(title, msg, btn);
+  modal.appendChild(box);
+  document.body.appendChild(modal);
+};
+
 const setupTerminalPanel = () => {
   const terminals = document.querySelectorAll("[data-terminal-panel]");
 
   terminals.forEach((terminal) => {
     syncTerminalInput(terminal);
   });
+
+  const secretTrigger = document.querySelector("[data-secret-trigger]");
+
+  if (secretTrigger instanceof HTMLElement) {
+    const activate = () => {
+      if (!secretsUnlocked) showUnlockModal();
+    };
+
+    secretTrigger.addEventListener("click", activate);
+    secretTrigger.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") activate();
+    });
+  }
 };
 
 export default setupTerminalPanel;
