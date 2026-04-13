@@ -53,7 +53,11 @@ const allowedInputTypes = new Set([
 
 const CONFETTI_COLORS = ["#ff77e9", "#8ff5ff", "#ffd166", "#c6ff7d", "#ffffff"];
 
-const generateStarPath = (outerR: number, innerR: number, grid: number): [number, number][] => {
+const generateStarPath = (
+  outerR: number,
+  innerR: number,
+  grid: number,
+): [number, number][] => {
   const snap = (v: number) => Math.round(v / grid) * grid;
   const vertices: [number, number][] = [];
 
@@ -90,6 +94,10 @@ const playSecretAnimation = () => {
   const OUTER_R = 80;
   const INNER_R = 35;
   const SHARD_COLORS = ["#ffd166", "#ffea99", "#ffbf00", "#fff1cc", "#ffffff"];
+
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
 
   const overlay = document.createElement("div");
   overlay.className = "secret-overlay";
@@ -158,6 +166,291 @@ const playSecretAnimation = () => {
     overlay.classList.add("secret-overlay--fade-out");
     setTimeout(() => overlay.remove(), 600);
   }, 3900);
+};
+
+// ── stylinson ─────────────────────────────────────────────────────
+const generateHeartPath = (scale: number, grid: number): [number, number][] => {
+  const snap = (v: number) => Math.round(v / grid) * grid;
+  const path: [number, number][] = [];
+
+  for (let i = 0; i <= 500; i++) {
+    const t = (i / 500) * 2 * Math.PI;
+    const x = snap(scale * 16 * Math.pow(Math.sin(t), 3));
+    const y = snap(
+      -scale * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t)),
+    );
+    const last = path[path.length - 1];
+    if (!last || last[0] !== x || last[1] !== y) {
+      path.push([x, y]);
+    }
+  }
+
+  return path;
+};
+
+const playStylinsionAnimation = () => {
+  const PIXEL = 8;
+  const SCALE = 9;
+
+  // Dismiss mobile keyboard before showing the animation
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
+
+  const overlay = document.createElement("div");
+  overlay.className = "secret-overlay";
+  document.body.appendChild(overlay);
+
+  const scene = document.createElement("div");
+  scene.className = "stylinson-scene";
+  overlay.appendChild(scene);
+
+  const imgLeft = document.createElement("img");
+  imgLeft.className = "stylinson-img";
+  imgLeft.src = "/images/styles.png";
+  imgLeft.alt = "";
+  scene.appendChild(imgLeft);
+
+  const imgRight = document.createElement("img");
+  imgRight.className = "stylinson-img stylinson-img--mirror";
+  imgRight.src = "/images/tomlinson.png";
+  imgRight.alt = "";
+  scene.appendChild(imgRight);
+
+  const heartContainer = document.createElement("div");
+  heartContainer.className = "stylinson-heart";
+  scene.appendChild(heartContainer);
+
+  const path = generateHeartPath(SCALE, PIXEL);
+  const buildStart = 400;
+  const buildDuration = 3000;
+  const delayPerPixel = buildDuration / path.length;
+
+  path.forEach(([x, y], i) => {
+    const px = document.createElement("div");
+    px.className = "stylinson-pixel";
+    px.style.cssText = [
+      `left:${x}px`,
+      `top:${y}px`,
+      `width:${PIXEL}px`,
+      `height:${PIXEL}px`,
+      `animation-delay:${Math.round(buildStart + i * delayPerPixel)}ms`,
+    ].join(";");
+    heartContainer.appendChild(px);
+  });
+
+  const textDelay = buildStart + buildDuration;
+
+  const text = document.createElement("div");
+  text.className = "stylinson-text";
+  text.textContent = "Love is only for the brave";
+  text.style.animationDelay = `${textDelay}ms`;
+  overlay.appendChild(text);
+
+  setTimeout(() => {
+    heartContainer.remove();
+    overlay.style.transition = "opacity 0.6s steps(4)";
+    overlay.style.opacity = "0";
+    setTimeout(() => overlay.remove(), 700);
+  }, 5500);
+};
+
+// ── potter / styles ───────────────────────────────────────────────
+const playHarrypAnimation = () => {
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
+
+  const overlay = document.createElement("div");
+  overlay.className = "secret-overlay";
+  document.body.appendChild(overlay);
+
+  const img = document.createElement("img");
+  img.className = "harryp-image";
+  img.src = "/images/patronum.png";
+  img.alt = "Expecto Patronum";
+  overlay.appendChild(img);
+
+  const spell = document.createElement("div");
+  spell.className = "harryp-spell";
+  spell.textContent = "Expecto Patronum";
+  overlay.appendChild(spell);
+
+  setTimeout(() => {
+    overlay.classList.add("secret-overlay--fade-out");
+    setTimeout(() => overlay.remove(), 600);
+  }, 4800);
+};
+
+// ── snitch ────────────────────────────────────────────────────────
+const playSnitchAnimation = () => {
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
+
+  const FRAMES = [
+    "/images/snitch_1.png",
+    "/images/snitch_2.png",
+    "/images/snitch_3.png",
+    "/images/snitch_2.png",
+  ];
+  const FRAME_MS = 100; // ping-pong: 1→2→3→2→1→2...
+  const TOTAL_MS = 2800;
+
+  // Erratic waypoints: [x%, y%] of viewport
+  const waypoints = [
+    [-8, 45],
+    [15, 20],
+    [38, 62],
+    [55, 15],
+    [70, 55],
+    [85, 25],
+    [108, 48],
+  ];
+
+  const snitch = document.createElement("div");
+  snitch.className = "snitch";
+  document.body.appendChild(snitch);
+
+  const img = document.createElement("img");
+  img.className = "snitch-img";
+  img.src = FRAMES[0];
+  img.alt = "";
+  snitch.appendChild(img);
+
+  // Frame animation (ping-pong)
+  let frameIdx = 0;
+  const frameTimer = window.setInterval(() => {
+    frameIdx = (frameIdx + 1) % FRAMES.length;
+    img.src = FRAMES[frameIdx];
+  }, FRAME_MS);
+
+  // Build CSS keyframes string dynamically from waypoints
+  const steps = waypoints.length - 1;
+  const keyframeRules = waypoints
+    .map(([x, y], i) => {
+      const pct = Math.round((i / steps) * 100);
+      const flip = x > 50 ? "scaleX(-1)" : "scaleX(1)";
+      return `${pct}% { left:${x}vw; top:${y}vh; transform:${flip}; }`;
+    })
+    .join(" ");
+
+  const styleEl = document.createElement("style");
+  styleEl.textContent = `@keyframes snitch-erratic { ${keyframeRules} }`;
+  document.head.appendChild(styleEl);
+
+  snitch.style.animationName = "snitch-erratic";
+  snitch.style.animationDuration = `${TOTAL_MS}ms`;
+
+  setTimeout(() => {
+    clearInterval(frameTimer);
+    snitch.remove();
+    styleEl.remove();
+  }, TOTAL_MS + 200);
+};
+
+// ── tattoo ────────────────────────────────────────────────────────
+const playTattooAnimation = () => {
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
+
+  const PIXEL = 16;
+  // "18" pixel art: "1" at cols 0-2, "8" at cols 4-6, centered by offset [-3, -2]
+  const eighteenPixels: [number, number][] = (
+    [
+      [1, 0],
+      [0, 1],
+      [1, 1],
+      [1, 2],
+      [1, 3],
+      [0, 4],
+      [1, 4],
+      [2, 4],
+      [4, 0],
+      [5, 0],
+      [6, 0],
+      [4, 1],
+      [6, 1],
+      [4, 2],
+      [5, 2],
+      [6, 2],
+      [4, 3],
+      [6, 3],
+      [4, 4],
+      [5, 4],
+      [6, 4],
+    ] as [number, number][]
+  ).map(([x, y]) => [x - 3, y - 2] as [number, number]);
+
+  const overlay = document.createElement("div");
+  overlay.className = "secret-overlay";
+  document.body.appendChild(overlay);
+
+  const container = document.createElement("div");
+  container.className = "tattoo-container tattoo-container--buzzing";
+  overlay.appendChild(container);
+
+  const delayPerPixel = 2500 / eighteenPixels.length;
+  eighteenPixels.forEach(([x, y], i) => {
+    const px = document.createElement("div");
+    px.className = "tattoo-pixel";
+    px.style.cssText = [
+      `left:${x * PIXEL}px`,
+      `top:${y * PIXEL}px`,
+      `width:${PIXEL}px`,
+      `height:${PIXEL}px`,
+      `animation-delay:${Math.round(300 + i * delayPerPixel)}ms`,
+    ].join(";");
+    container.appendChild(px);
+  });
+
+  setTimeout(() => {
+    container.classList.remove("tattoo-container--buzzing");
+    container.classList.add("tattoo-container--glow");
+  }, 3000);
+
+  setTimeout(() => {
+    overlay.classList.add("secret-overlay--fade-out");
+    setTimeout(() => overlay.remove(), 600);
+  }, 4100);
+};
+
+// ── golden ────────────────────────────────────────────────────────
+const playGoldenAnimation = () => {
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
+
+  const overlay = document.createElement("div");
+  overlay.className = "golden-overlay";
+  document.body.appendChild(overlay);
+
+  for (let i = 0; i < 50; i++) {
+    const px = document.createElement("div");
+    px.className = "golden-pixel";
+    const size = (2 + Math.floor(Math.random() * 4)) * 2;
+    const delay = Math.round(Math.random() * 2500);
+    const dur = Math.round(1800 + Math.random() * 2000);
+    px.style.cssText = [
+      `left:${(Math.random() * 98).toFixed(1)}vw`,
+      `width:${size}px`,
+      `height:${size}px`,
+      `animation-delay:${delay}ms`,
+      `animation-duration:${dur}ms`,
+    ].join(";");
+    overlay.appendChild(px);
+  }
+
+  const text = document.createElement("div");
+  text.className = "golden-text";
+  text.textContent = "you're so golden";
+  overlay.appendChild(text);
+
+  setTimeout(() => {
+    overlay.classList.add("golden-overlay--out");
+    setTimeout(() => overlay.remove(), 800);
+  }, 4500);
 };
 
 const spawnConfetti = () => {
@@ -244,6 +537,108 @@ const availableCommands: Record<string, () => TerminalCommandResult> = {
       outputs: [{ tone: "muted", value: "✦ something is happening..." }],
     };
   },
+
+  styles: () => {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+
+    const overlay = document.createElement("div");
+    overlay.className = "secret-overlay";
+    document.body.appendChild(overlay);
+
+    const img = document.createElement("img");
+    img.className = "harryp-image";
+    img.src = "/images/styles.png";
+    img.alt = "Harry Styles";
+    overlay.appendChild(img);
+
+    const spell = document.createElement("div");
+    spell.className = "harryp-spell";
+    spell.textContent = "same lips red, same eyes blue,";
+    overlay.appendChild(spell);
+
+    setTimeout(() => {
+      overlay.classList.add("secret-overlay--fade-out");
+      setTimeout(() => overlay.remove(), 600);
+    }, 4800);
+
+    return {
+      clearHistory: false,
+      outputs: [{ tone: "muted", value: "♪ watermelon sugar high..." }],
+    };
+  },
+
+  potter: () => {
+    playHarrypAnimation();
+    return {
+      clearHistory: false,
+      outputs: [{ tone: "muted", value: "✦ Expecto Patronum..." }],
+    };
+  },
+
+  snitch: () => {
+    playSnitchAnimation();
+    return {
+      clearHistory: false,
+      outputs: [{ tone: "muted", value: "the snitch is out there." }],
+    };
+  },
+
+  tattoo: () => {
+    playTattooAnimation();
+    return {
+      clearHistory: false,
+      outputs: [{ tone: "muted", value: "18. forever." }],
+    };
+  },
+
+  stylinson: () => {
+    playStylinsionAnimation();
+    return {
+      clearHistory: false,
+      outputs: [{ tone: "muted", value: "✦ love is only for the brave..." }],
+    };
+  },
+
+  tomlinson: () => {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+
+    const overlay = document.createElement("div");
+    overlay.className = "secret-overlay";
+    document.body.appendChild(overlay);
+
+    const img = document.createElement("img");
+    img.className = "harryp-image harryp-image--mirrored";
+    img.src = "/images/tomlinson.png";
+    img.alt = "Louis Tomlinson";
+    overlay.appendChild(img);
+
+    const spell = document.createElement("div");
+    spell.className = "harryp-spell";
+    spell.textContent = "same white shirt, couple more tattoos";
+    overlay.appendChild(spell);
+
+    setTimeout(() => {
+      overlay.classList.add("secret-overlay--fade-out");
+      setTimeout(() => overlay.remove(), 600);
+    }, 4800);
+
+    return {
+      clearHistory: false,
+      outputs: [{ tone: "muted", value: "♪ walls don't lie..." }],
+    };
+  },
+
+  golden: () => {
+    playGoldenAnimation();
+    return {
+      clearHistory: false,
+      outputs: [{ tone: "ok", value: "♪ golden..." }],
+    };
+  },
 };
 
 const createPromptFragment = () => {
@@ -274,7 +669,10 @@ const createCommandEntry = (value: string) => {
   return line;
 };
 
-const createOutputEntry = ({ value, tone = "surface" }: Omit<TerminalOutputEntry, "type">) => {
+const createOutputEntry = ({
+  value,
+  tone = "surface",
+}: Omit<TerminalOutputEntry, "type">) => {
   const line = document.createElement("p");
   line.className = `terminal__line ${toneClassByName[tone]}`;
   line.textContent = value;
@@ -350,7 +748,10 @@ const requestTerminalAttention = (textarea: HTMLTextAreaElement) => {
 };
 
 const syncTerminalInput = (terminal: Element) => {
-  if (!(terminal instanceof HTMLElement) || terminal.dataset.terminalReady === "true") {
+  if (
+    !(terminal instanceof HTMLElement) ||
+    terminal.dataset.terminalReady === "true"
+  ) {
     return;
   }
 
@@ -365,12 +766,12 @@ const syncTerminalInput = (terminal: Element) => {
   let previousComposerHeight = 0;
 
   if (
-    !(body instanceof HTMLElement)
-    || !(history instanceof HTMLElement)
-    || !(container instanceof HTMLElement)
-    || !(composer instanceof HTMLElement)
-    || !(mirror instanceof HTMLElement)
-    || !(textarea instanceof HTMLTextAreaElement)
+    !(body instanceof HTMLElement) ||
+    !(history instanceof HTMLElement) ||
+    !(container instanceof HTMLElement) ||
+    !(composer instanceof HTMLElement) ||
+    !(mirror instanceof HTMLElement) ||
+    !(textarea instanceof HTMLTextAreaElement)
   ) {
     return;
   }
@@ -391,7 +792,9 @@ const syncTerminalInput = (terminal: Element) => {
     body.scrollTop = body.scrollHeight;
   };
 
-  const syncComposer = ({ forceScroll = false }: { forceScroll?: boolean } = {}) => {
+  const syncComposer = ({
+    forceScroll = false,
+  }: { forceScroll?: boolean } = {}) => {
     mirror.textContent = `${textarea.value}\u200b`;
     const nextComposerHeight = composer.offsetHeight;
 
@@ -466,7 +869,8 @@ const syncTerminalInput = (terminal: Element) => {
     }
 
     const isPlainCharacter = event.key.length === 1;
-    const isAllowedKey = isPlainCharacter || allowedNavigationKeys.has(event.key);
+    const isAllowedKey =
+      isPlainCharacter || allowedNavigationKeys.has(event.key);
 
     if (!isAllowedKey) {
       event.preventDefault();

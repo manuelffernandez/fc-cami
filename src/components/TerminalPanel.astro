@@ -143,6 +143,202 @@ import "./terminal-panel/styles.css";
       opacity: 0;
     }
   }
+
+  /* harryp — patronum image */
+  .harryp-image {
+    max-width: clamp(160px, 40vw, 320px);
+    image-rendering: pixelated;
+    opacity: 0;
+    animation: harryp-image-in 0.4s steps(4) 0.3s forwards;
+  }
+
+  .harryp-image--mirrored {
+    transform: scaleX(-1);
+  }
+
+  @keyframes harryp-image-in {
+    to { opacity: 1; }
+  }
+
+  .harryp-spell {
+    position: absolute;
+    top: calc(50% + 100px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Dancing Script', cursive;
+    color: #c8b8ff;
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
+    white-space: nowrap;
+    opacity: 0;
+    animation: harryp-spell-in 0.6s ease-out 1400ms forwards;
+  }
+
+  @keyframes harryp-spell-in {
+    from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+
+  /* snitch — flying element */
+  .snitch {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+
+  .snitch-img {
+    width: clamp(96px, 16vw, 160px);
+    image-rendering: pixelated;
+    display: block;
+  }
+
+  /* stylinson — heart pixel art */
+  .stylinson-scene {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 105px 160px 170px;
+  }
+
+  .stylinson-img {
+    width: clamp(90px, 14vw, 130px);
+    image-rendering: pixelated;
+    position: relative;
+    z-index: 1;
+    margin-top: 40px;
+    opacity: 0;
+    animation: harryp-image-in 0.4s steps(4) 0.2s forwards;
+  }
+
+  .stylinson-img--mirror {
+    transform: scaleX(-1);
+  }
+
+  .stylinson-heart {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .stylinson-pixel {
+    position: absolute;
+    background: #ff3355;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    image-rendering: pixelated;
+    animation: secret-pixel-place 1ms steps(1) forwards;
+  }
+
+  .stylinson-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    font-family: 'Dancing Script', cursive;
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(255, 51, 85, 0.9), 0 2px 4px rgba(0,0,0,0.6);
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    white-space: nowrap;
+    text-align: center;
+    opacity: 0;
+    animation: stylinson-text-in 0.6s ease-out forwards;
+  }
+
+  @keyframes stylinson-text-in {
+    from { opacity: 0; transform: translate(-50%, calc(-50% + 8px)); }
+    to   { opacity: 1; transform: translate(-50%, -50%); }
+  }
+
+  /* tattoo — "18" drawn pixel by pixel */
+  .tattoo-container {
+    position: relative;
+    width: 0;
+    height: 0;
+    image-rendering: pixelated;
+  }
+
+  .tattoo-container--buzzing {
+    animation: tattoo-buzz 0.08s steps(2) infinite;
+  }
+
+  @keyframes tattoo-buzz {
+    0%  { transform: translate(0, 0); }
+    50% { transform: translate(1px, -1px); }
+  }
+
+  .tattoo-pixel {
+    position: absolute;
+    background: #ff85a1;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    image-rendering: pixelated;
+    animation: secret-pixel-place 1ms steps(1) forwards;
+    transition: background 0.4s, box-shadow 0.4s;
+  }
+
+  .tattoo-container--glow .tattoo-pixel {
+    background: #ff5f8a;
+    box-shadow: 0 0 8px #ff85a1, 0 0 20px rgba(255, 133, 161, 0.5);
+  }
+
+  /* golden — pixel rain */
+  .golden-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    pointer-events: none;
+    animation: secret-darken 0.5s steps(4) forwards;
+  }
+
+  .golden-overlay--out {
+    animation: secret-fade-out 0.8s steps(4) forwards;
+  }
+
+  .golden-pixel {
+    position: absolute;
+    top: -20px;
+    background: #ffd166;
+    image-rendering: pixelated;
+    opacity: 0;
+    animation-name: golden-fall;
+    animation-timing-function: steps(14);
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes golden-fall {
+    0%   { transform: translateY(0); opacity: 0; }
+    8%   { opacity: 1; }
+    88%  { opacity: 1; }
+    100% { transform: translateY(112vh); opacity: 0; }
+  }
+
+  .golden-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-mono);
+    color: #ffd166;
+    font-size: clamp(1rem, 4vw, 1.8rem);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 0;
+    text-shadow: 0 0 24px rgba(255, 209, 102, 0.9);
+    animation: golden-text-in 0.5s steps(3) 1800ms forwards;
+  }
+
+  @keyframes golden-text-in {
+    to { opacity: 1; }
+  }
 </style>
 
 <script>
