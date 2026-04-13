@@ -81,6 +81,68 @@ import "./terminal-panel/styles.css";
     z-index: 9999;
     animation: confetti-particle 2.4s ease-out forwards;
   }
+
+  /* Secret star animation */
+  .secret-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    animation: secret-darken 0.3s steps(4) forwards;
+  }
+
+  .secret-overlay--fade-out {
+    animation: secret-fade-out 0.5s steps(4) forwards;
+  }
+
+  @keyframes secret-darken {
+    from { background: rgba(0, 0, 0, 0); }
+    to { background: rgba(0, 0, 0, 0.7); }
+  }
+
+  @keyframes secret-fade-out {
+    to { background: rgba(0, 0, 0, 0); opacity: 0; }
+  }
+
+  .secret-star {
+    position: relative;
+    width: 0;
+    height: 0;
+    image-rendering: pixelated;
+  }
+
+  .secret-pixel {
+    position: absolute;
+    background: #ffd166;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    animation: secret-pixel-place 1ms steps(1) forwards;
+  }
+
+  @keyframes secret-pixel-place {
+    to { opacity: 1; }
+  }
+
+  .secret-shard {
+    position: absolute;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    animation: secret-shard-fly 0.7s steps(8) forwards;
+  }
+
+  @keyframes secret-shard-fly {
+    0% {
+      translate: 0 0;
+      opacity: 1;
+    }
+    100% {
+      translate: var(--cx) var(--cy);
+      opacity: 0;
+    }
+  }
 </style>
 
 <script>

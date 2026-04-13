@@ -53,6 +53,113 @@ const allowedInputTypes = new Set([
 
 const CONFETTI_COLORS = ["#ff77e9", "#8ff5ff", "#ffd166", "#c6ff7d", "#ffffff"];
 
+const generateStarPath = (outerR: number, innerR: number, grid: number): [number, number][] => {
+  const snap = (v: number) => Math.round(v / grid) * grid;
+  const vertices: [number, number][] = [];
+
+  for (let i = 0; i < 10; i++) {
+    const angle = -Math.PI / 2 + (i * 2 * Math.PI) / 10;
+    const r = i % 2 === 0 ? outerR : innerR;
+    vertices.push([snap(r * Math.cos(angle)), snap(r * Math.sin(angle))]);
+  }
+
+  const path: [number, number][] = [];
+
+  for (let i = 0; i < vertices.length; i++) {
+    const [x0, y0] = vertices[i];
+    const [x1, y1] = vertices[(i + 1) % vertices.length];
+    const steps = Math.max(Math.abs(x1 - x0), Math.abs(y1 - y0)) / grid;
+
+    for (let s = 0; s <= steps; s++) {
+      const t = steps === 0 ? 0 : s / steps;
+      const x = snap(x0 + (x1 - x0) * t);
+      const y = snap(y0 + (y1 - y0) * t);
+      const last = path[path.length - 1];
+
+      if (!last || last[0] !== x || last[1] !== y) {
+        path.push([x, y]);
+      }
+    }
+  }
+
+  return path;
+};
+
+const playSecretAnimation = () => {
+  const PIXEL_SIZE = 8;
+  const OUTER_R = 80;
+  const INNER_R = 35;
+  const SHARD_COLORS = ["#ffd166", "#ffea99", "#ffbf00", "#fff1cc", "#ffffff"];
+
+  const overlay = document.createElement("div");
+  overlay.className = "secret-overlay";
+  document.body.appendChild(overlay);
+
+  const starContainer = document.createElement("div");
+  starContainer.className = "secret-star";
+  overlay.appendChild(starContainer);
+
+  const path = generateStarPath(OUTER_R, INNER_R, PIXEL_SIZE);
+  const buildStart = 300;
+  const buildDuration = 2500;
+  const delayPerPixel = buildDuration / path.length;
+
+  path.forEach(([x, y], i) => {
+    const pixel = document.createElement("div");
+    pixel.className = "secret-pixel";
+    pixel.style.cssText = [
+      `left:${x}px`,
+      `top:${y}px`,
+      `width:${PIXEL_SIZE}px`,
+      `height:${PIXEL_SIZE}px`,
+      `animation-delay:${Math.round(buildStart + i * delayPerPixel)}ms`,
+    ].join(";");
+    starContainer.appendChild(pixel);
+  });
+
+  setTimeout(() => {
+    const pixels = starContainer.querySelectorAll<HTMLElement>(".secret-pixel");
+
+    pixels.forEach((pixel) => {
+      const px = parseFloat(pixel.style.left);
+      const py = parseFloat(pixel.style.top);
+      const shardCount = 3 + Math.floor(Math.random() * 3);
+
+      for (let s = 0; s < shardCount; s++) {
+        const shard = document.createElement("div");
+        shard.className = "secret-shard";
+        const size = 2 + Math.floor(Math.random() * 4);
+        const baseAngle = Math.atan2(py, px);
+        const angle = baseAngle + (Math.random() - 0.5) * 1.4;
+        const dist = 100 + Math.random() * 220;
+        const cx = Math.cos(angle) * dist;
+        const cy = Math.sin(angle) * dist;
+        const delay = Math.floor(Math.random() * 120);
+
+        shard.style.cssText = [
+          `left:${px}px`,
+          `top:${py}px`,
+          `width:${size}px`,
+          `height:${size}px`,
+          `background:${SHARD_COLORS[s % SHARD_COLORS.length]}`,
+          `--cx:${cx}px`,
+          `--cy:${cy}px`,
+          `animation-delay:${delay}ms`,
+        ].join(";");
+
+        starContainer.appendChild(shard);
+      }
+
+      pixel.remove();
+    });
+  }, 3000);
+
+  setTimeout(() => {
+    overlay.classList.add("secret-overlay--fade-out");
+    setTimeout(() => overlay.remove(), 600);
+  }, 3900);
+};
+
 const spawnConfetti = () => {
   const count = 90;
   const originX = window.innerWidth / 2;
@@ -98,6 +205,9 @@ const availableCommands: Record<string, () => TerminalCommandResult> = {
       { tone: "surface", value: "  gift       — open birthday gift" },
       { tone: "surface", value: "  confetti   — spawn confetti burst" },
       { tone: "surface", value: "  shutdown   — blow out the candles" },
+      { tone: "muted", value: "──────────────────────────────────" },
+      { tone: "muted", value: "  ? some commands are hidden..." },
+      { tone: "muted", value: "  try to find them." },
     ],
   }),
 
@@ -124,6 +234,14 @@ const availableCommands: Record<string, () => TerminalCommandResult> = {
     return {
       clearHistory: false,
       outputs: [{ tone: "ok", value: "SHUTDOWN.EXE — executing..." }],
+    };
+  },
+
+  secret: () => {
+    playSecretAnimation();
+    return {
+      clearHistory: false,
+      outputs: [{ tone: "muted", value: "✦ something is happening..." }],
     };
   },
 };
